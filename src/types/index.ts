@@ -19,3 +19,9 @@ export * from './proposals';
 export * from './control';
 export * from './composition';
 export * from './supervision';
+
+// Phase 4: Clinical, Imaging & Bias Detection
+export * from './bias';
+export * from './audit';
+export * from './errors';
+export * from './messages';

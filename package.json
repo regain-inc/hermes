@@ -1,7 +1,7 @@
 {
   "name": "@regain/hermes",
-  "version": "0.0.1",
-  "description": "Hermes package by Regain",
+  "version": "1.0.0",
+  "description": "TypeScript types, validation, and utilities for the Hermes clinical supervision protocol",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -25,7 +25,8 @@
     },
     "./package.json": "./package.json"
   },
-  "files": ["dist", "src"],
+  "files": ["dist", "src", "LICENSE", "README.md", "CHANGELOG.md"],
+  "sideEffects": false,
   "scripts": {
     "build": "bun run build:js && bun run build:types",
     "build:js": "bun build ./src/index.ts --outdir ./dist --target node --format esm && bun build ./src/index.ts --outfile ./dist/index.cjs --target node --format cjs",
@@ -35,9 +36,11 @@
     "lint": "biome check .",
     "lint:fix": "biome check --write .",
     "format": "biome format --write .",
-    "prepublishOnly": "bun run build",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "bun run lint && bun run typecheck && bun run test && bun run build",
     "prepare": "git config core.hooksPath .githooks || true",
-    "check": "bun run lint && bun run build:types && bun test"
+    "check": "bun run lint && bun run build:types && bun test",
+    "prepack": "bun run build"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.0",
@@ -54,21 +57,35 @@
       "optional": true
     }
   },
-  "keywords": ["hermes", "regain"],
-  "author": "",
+  "keywords": [
+    "hermes",
+    "clinical",
+    "supervision",
+    "healthcare",
+    "ai-safety",
+    "protocol",
+    "typescript",
+    "validation",
+    "json-schema",
+    "epistemology",
+    "medical",
+    "regain"
+  ],
+  "author": "Regain Inc. <engineering@regain.health>",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "git+https://github.com/regain-inc/hermes.git"
   },
   "bugs": {
-    "url": ""
+    "url": "https://github.com/regain-inc/hermes/issues"
   },
-  "homepage": "",
+  "homepage": "https://github.com/regain-inc/hermes#readme",
   "engines": {
     "node": ">=18.0.0"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   }
 }

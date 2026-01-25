@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.1] - 2026-01-25
+
+### Changed
+
+- Remove internal documentation from package
+- Remove spec file references from JSDoc comments
+
 ## [1.0.0] - 2026-01-25
 
 ### Added
@@ -63,5 +70,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Requires Node.js >= 18.0.0
 - TypeScript >= 5.0.0 recommended
 
-[Unreleased]: https://github.com/regain-inc/hermes/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/regain-inc/hermes/compare/v1.0.1...HEAD
+[1.0.1]: https://github.com/regain-inc/hermes/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/regain-inc/hermes/releases/tag/v1.0.0

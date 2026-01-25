@@ -1,6 +1,6 @@
 {
   "name": "@regain/hermes",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "TypeScript types, validation, and utilities for the Hermes clinical supervision protocol",
   "type": "module",
   "main": "./dist/index.js",

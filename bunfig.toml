@@ -1,0 +1,15 @@
+[install]
+# Использовать frozen lockfile в CI
+# frozen = true
+
+[install.cache]
+# Включить кэширование
+disable = false
+
+[test]
+# Паттерны для тестовых файлов
+root = "./"
+
+[install.scopes]
+# Конфигурация для scoped пакетов если нужно
+# "@regain" = { token = "$REGAIN_NPM_TOKEN" }

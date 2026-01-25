@@ -1,0 +1,60 @@
+{
+  "name": "@regain/hermes",
+  "version": "0.0.1",
+  "description": "Hermes package by Regain",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "bun": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": ["dist", "src"],
+  "scripts": {
+    "build": "bun run build:js && bun run build:types",
+    "build:js": "bun build ./src/index.ts --outdir ./dist --target node --format esm && bun build ./src/index.ts --outfile ./dist/index.cjs --target node --format cjs",
+    "build:types": "tsc --emitDeclarationOnly --outDir dist",
+    "dev": "bun --watch src/index.ts",
+    "test": "bun test",
+    "lint": "biome check .",
+    "lint:fix": "biome check --write .",
+    "format": "biome format --write .",
+    "prepublishOnly": "bun run build"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.0",
+    "@types/bun": "latest",
+    "typescript": "^5.7.0"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "peerDependenciesMeta": {
+    "typescript": {
+      "optional": true
+    }
+  },
+  "keywords": ["hermes", "regain"],
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "bugs": {
+    "url": ""
+  },
+  "homepage": "",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

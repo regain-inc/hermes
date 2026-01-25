@@ -68,13 +68,22 @@ export function createFalsificationCriteria(
     throw new Error('At least one outcome measure is required');
   }
 
-  return {
+  const result: FalsificationCriteria = {
     claim_id: claimId,
     refutation_conditions: conditions,
     outcome_measures: measures,
-    observation_window_days: options?.observationWindowDays,
-    refutation_action: options?.refutationAction,
   };
+
+  if (options?.observationWindowDays !== undefined) {
+    (result as { observation_window_days?: number }).observation_window_days =
+      options.observationWindowDays;
+  }
+  if (options?.refutationAction !== undefined) {
+    (result as { refutation_action?: RefutationAction }).refutation_action =
+      options.refutationAction;
+  }
+
+  return result;
 }
 
 /**

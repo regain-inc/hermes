@@ -6,19 +6,14 @@
 import type {
   HermesVersion,
   Mode,
-  ReasonCode,
-  SupervisionDecision,
   ProposedInterventionKind,
-  TraceProducer,
+  ReasonCode,
   SubjectRef,
+  SupervisionDecision,
+  TraceProducer,
 } from './core';
 
-import {
-  MODES,
-  REASON_CODES,
-  SUPERVISION_DECISIONS,
-  PROPOSED_INTERVENTION_KINDS,
-} from './core';
+import { MODES, PROPOSED_INTERVENTION_KINDS, REASON_CODES, SUPERVISION_DECISIONS } from './core';
 
 // Re-export isIsoDateTime from datetime utils for convenience
 export { isIsoDateTime } from '../utils/datetime';
@@ -63,13 +58,8 @@ export function isReasonCode(value: unknown): value is ReasonCode {
  * @param value - The value to check
  * @returns True if the value is a valid SupervisionDecision
  */
-export function isSupervisionDecision(
-  value: unknown
-): value is SupervisionDecision {
-  return (
-    typeof value === 'string' &&
-    SUPERVISION_DECISIONS.includes(value as SupervisionDecision)
-  );
+export function isSupervisionDecision(value: unknown): value is SupervisionDecision {
+  return typeof value === 'string' && SUPERVISION_DECISIONS.includes(value as SupervisionDecision);
 }
 
 /**
@@ -77,9 +67,7 @@ export function isSupervisionDecision(
  * @param value - The value to check
  * @returns True if the value is a valid ProposedInterventionKind
  */
-export function isProposedInterventionKind(
-  value: unknown
-): value is ProposedInterventionKind {
+export function isProposedInterventionKind(value: unknown): value is ProposedInterventionKind {
   return (
     typeof value === 'string' &&
     PROPOSED_INTERVENTION_KINDS.includes(value as ProposedInterventionKind)
@@ -101,8 +89,7 @@ export function isTraceProducer(value: unknown): value is TraceProducer {
     typeof obj.system === 'string' &&
     validSystems.includes(obj.system) &&
     typeof obj.service_version === 'string' &&
-    (obj.ruleset_version === undefined ||
-      typeof obj.ruleset_version === 'string') &&
+    (obj.ruleset_version === undefined || typeof obj.ruleset_version === 'string') &&
     (obj.model_version === undefined || typeof obj.model_version === 'string')
   );
 }
@@ -120,7 +107,6 @@ export function isSubjectRef(value: unknown): value is SubjectRef {
   return (
     obj.subject_type === 'patient' &&
     typeof obj.subject_id === 'string' &&
-    (obj.organization_id === undefined ||
-      typeof obj.organization_id === 'string')
+    (obj.organization_id === undefined || typeof obj.organization_id === 'string')
   );
 }

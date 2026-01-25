@@ -6,3 +6,4 @@
 export * from './core';
 export * from './branded';
 export * from './guards';
+export * from './epistemology';

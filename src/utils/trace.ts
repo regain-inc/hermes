@@ -54,10 +54,7 @@ export function createTraceContext(producer: TraceProducer): TraceContext {
  * @param producer - Optional new producer, defaults to parent's producer
  * @returns New TraceContext as a child span
  */
-export function createSpan(
-  parent: TraceContext,
-  producer?: TraceProducer
-): TraceContext {
+export function createSpan(parent: TraceContext, producer?: TraceProducer): TraceContext {
   const context: TraceContext = {
     trace_id: parent.trace_id,
     span_id: generateSpanId(),

@@ -1,14 +1,14 @@
 import { describe, expect, it } from 'bun:test';
-import {
-  generateTraceId,
-  generateSpanId,
-  createTraceContext,
-  createSpan,
-  isValidTraceId,
-  isValidSpanId,
-} from './trace';
-import { isIsoDateTime } from './datetime';
 import type { TraceProducer } from '../types/core';
+import { isIsoDateTime } from './datetime';
+import {
+  createSpan,
+  createTraceContext,
+  generateSpanId,
+  generateTraceId,
+  isValidSpanId,
+  isValidTraceId,
+} from './trace';
 
 describe('Trace Utilities', () => {
   const testProducer: TraceProducer = {
@@ -91,7 +91,8 @@ describe('Trace Utilities', () => {
       const context = createTraceContext(testProducer);
 
       expect(isValidTraceId(context.trace_id)).toBe(true);
-      expect(isValidSpanId(context.span_id!)).toBe(true);
+      expect(context.span_id).toBeDefined();
+      expect(isValidSpanId(context.span_id ?? '')).toBe(true);
     });
 
     it('should preserve producer information', () => {

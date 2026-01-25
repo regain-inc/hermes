@@ -1,14 +1,14 @@
 import { describe, expect, it } from 'bun:test';
 import {
-  isHermesVersion,
-  isMode,
-  isReasonCode,
-  isSupervisionDecision,
-  isProposedInterventionKind,
-  isTraceProducer,
-  isSubjectRef,
-  isIsoDateTime,
   HERMES_VERSION_PATTERN,
+  isHermesVersion,
+  isIsoDateTime,
+  isMode,
+  isProposedInterventionKind,
+  isReasonCode,
+  isSubjectRef,
+  isSupervisionDecision,
+  isTraceProducer,
 } from './guards';
 
 describe('Type Guards', () => {
@@ -151,12 +151,8 @@ describe('Type Guards', () => {
     it('should return false for invalid TraceProducer', () => {
       expect(isTraceProducer({})).toBe(false);
       expect(isTraceProducer({ system: 'deutsch' })).toBe(false);
-      expect(
-        isTraceProducer({ system: 'invalid', service_version: '1.0.0' })
-      ).toBe(false);
-      expect(
-        isTraceProducer({ system: 'deutsch', service_version: 123 })
-      ).toBe(false);
+      expect(isTraceProducer({ system: 'invalid', service_version: '1.0.0' })).toBe(false);
+      expect(isTraceProducer({ system: 'deutsch', service_version: 123 })).toBe(false);
     });
 
     it('should return false for non-objects', () => {
@@ -187,12 +183,8 @@ describe('Type Guards', () => {
     it('should return false for invalid SubjectRef', () => {
       expect(isSubjectRef({})).toBe(false);
       expect(isSubjectRef({ subject_type: 'patient' })).toBe(false);
-      expect(
-        isSubjectRef({ subject_type: 'doctor', subject_id: '123' })
-      ).toBe(false);
-      expect(
-        isSubjectRef({ subject_type: 'patient', subject_id: 123 })
-      ).toBe(false);
+      expect(isSubjectRef({ subject_type: 'doctor', subject_id: '123' })).toBe(false);
+      expect(isSubjectRef({ subject_type: 'patient', subject_id: 123 })).toBe(false);
     });
 
     it('should return false for non-objects', () => {

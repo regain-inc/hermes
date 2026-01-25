@@ -1,12 +1,12 @@
 import { describe, expect, it } from 'bun:test';
+import type { IsoDateTime } from '../types/core';
 import {
-  isIsoDateTime,
+  ISO_DATETIME_PATTERN,
   createIsoDateTime,
+  isIsoDateTime,
   parseIsoDateTime,
   toIsoDateTime,
-  ISO_DATETIME_PATTERN,
 } from './datetime';
-import type { IsoDateTime } from '../types/core';
 
 describe('DateTime Utilities', () => {
   describe('ISO_DATETIME_PATTERN', () => {
@@ -95,9 +95,7 @@ describe('DateTime Utilities', () => {
 
     it('should throw error for invalid date value', () => {
       const invalidDate = 'invalid-date' as IsoDateTime;
-      expect(() => parseIsoDateTime(invalidDate)).toThrow(
-        'Invalid IsoDateTime value'
-      );
+      expect(() => parseIsoDateTime(invalidDate)).toThrow('Invalid IsoDateTime value');
     });
   });
 
@@ -109,12 +107,8 @@ describe('DateTime Utilities', () => {
     });
 
     it('should throw error for invalid strings', () => {
-      expect(() => toIsoDateTime('2024-01-15')).toThrow(
-        'Invalid IsoDateTime format'
-      );
-      expect(() => toIsoDateTime('not-a-date')).toThrow(
-        'Invalid IsoDateTime format'
-      );
+      expect(() => toIsoDateTime('2024-01-15')).toThrow('Invalid IsoDateTime format');
+      expect(() => toIsoDateTime('not-a-date')).toThrow('Invalid IsoDateTime format');
     });
   });
 });

@@ -42,7 +42,7 @@ export function createIsoDateTime(date: Date = new Date()): IsoDateTime {
  */
 export function parseIsoDateTime(value: IsoDateTime): Date {
   const date = new Date(value);
-  if (isNaN(date.getTime())) {
+  if (Number.isNaN(date.getTime())) {
     throw new Error(`Invalid IsoDateTime value: ${value}`);
   }
   return date;

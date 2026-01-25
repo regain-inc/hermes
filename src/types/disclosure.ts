@@ -4,20 +4,11 @@
  * @module types/disclosure
  */
 
+import type { UncertaintyLevel } from './epistemology';
+
 // =============================================================================
 // Section 2.7: Disclosure Bundle
 // =============================================================================
-
-/**
- * Level of uncertainty in a recommendation.
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 2.7
- */
-export type UncertaintyLevel = 'low' | 'medium' | 'high';
-
-/**
- * All valid uncertainty levels as a readonly array for runtime validation.
- */
-export const UNCERTAINTY_LEVELS: readonly UncertaintyLevel[] = ['low', 'medium', 'high'] as const;
 
 /**
  * Standard "glass box" explanation for clinicians and patients.

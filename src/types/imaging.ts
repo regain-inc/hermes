@@ -7,7 +7,7 @@
  */
 
 import type { IsoDateTime } from './core';
-import type { EvidenceGrade } from './evidence';
+import type { EvidenceGrade } from './epistemology';
 
 // =============================================================================
 // Section 2.9.1: Imaging Study Reference

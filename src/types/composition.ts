@@ -6,7 +6,7 @@
  */
 
 import type { AuditRedactionBase, SupervisionDecision } from './core';
-import type { UncertaintyLevel } from './disclosure';
+import type { UncertaintyLevel } from './epistemology';
 import type { EvidenceRef } from './evidence';
 
 // =============================================================================

@@ -5,3 +5,5 @@
 
 export * from './datetime';
 export * from './trace';
+export * from './htv';
+export * from './uncertainty';

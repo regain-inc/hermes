@@ -92,9 +92,7 @@ describe('Trace Utilities', () => {
 
       expect(isValidTraceId(context.trace_id)).toBe(true);
       expect(context.span_id).toBeDefined();
-      if (context.span_id) {
-        expect(isValidSpanId(context.span_id)).toBe(true);
-      }
+      expect(isValidSpanId(context.span_id ?? '')).toBe(true);
     });
 
     it('should preserve producer information', () => {

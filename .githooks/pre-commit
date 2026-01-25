@@ -1,0 +1,20 @@
+#!/bin/sh
+# Pre-commit hook for Hermes project
+# Runs lint, type-check, and tests before each commit
+
+echo "Running pre-commit checks..."
+
+# Run the check script
+bun run check
+
+# Capture the exit code
+EXIT_CODE=$?
+
+if [ $EXIT_CODE -ne 0 ]; then
+    echo ""
+    echo "Pre-commit checks failed. Please fix the issues above before committing."
+    exit 1
+fi
+
+echo "Pre-commit checks passed!"
+exit 0

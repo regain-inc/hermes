@@ -13,6 +13,16 @@
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     },
+    "./schema": {
+      "bun": "./src/schema/index.ts",
+      "types": "./dist/schema/index.d.ts",
+      "import": "./dist/schema/index.js"
+    },
+    "./fixtures": {
+      "bun": "./src/fixtures/index.ts",
+      "types": "./dist/fixtures/index.d.ts",
+      "import": "./dist/fixtures/index.js"
+    },
     "./package.json": "./package.json"
   },
   "files": ["dist", "src"],
@@ -25,11 +35,15 @@
     "lint": "biome check .",
     "lint:fix": "biome check --write .",
     "format": "biome format --write .",
-    "prepublishOnly": "bun run build"
+    "prepublishOnly": "bun run build",
+    "prepare": "git config core.hooksPath .githooks || true",
+    "check": "bun run lint && bun run build:types && bun test"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.0",
     "@types/bun": "latest",
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1",
     "typescript": "^5.7.0"
   },
   "peerDependencies": {

@@ -1,6 +1,5 @@
 /**
  * Control command types for Hermes protocol (Popper → Deutsch)
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 3.6
  * @module types/control
  */
 
@@ -12,7 +11,6 @@ import type { AuditRedactionBase, IsoDateTime } from './core';
 
 /**
  * Types of control commands from Popper to Deutsch.
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 3.6
  * @see schema/hermes-message.schema.json — $defs.ControlCommandKind
  */
 export type ControlCommandKind = 'SET_SAFE_MODE' | 'SET_OPERATIONAL_SETTING';
@@ -27,7 +25,6 @@ export const CONTROL_COMMAND_KINDS: readonly ControlCommandKind[] = [
 
 /**
  * Safe mode configuration.
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 3.6
  */
 export interface SafeModeConfig {
   /** Whether safe mode is enabled */
@@ -44,7 +41,6 @@ export interface SafeModeConfig {
  * Operational setting key-value pair.
  * Stringly typed for v1; can become typed later.
  *
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 3.6
  */
 export interface OperationalSetting {
   /** Setting key (e.g., "max_autonomy_level") */
@@ -56,7 +52,6 @@ export interface OperationalSetting {
 /**
  * Control command from Popper to Deutsch.
  *
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 3.6
  * @see schema/hermes-message.schema.json — $defs.ControlCommand
  */
 export interface ControlCommand {
@@ -81,7 +76,6 @@ export interface ControlCommand {
  * Safe mode state used at evaluation time.
  * Binds decision to the safe-mode state for audits.
  *
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 3.5
  * @see schema/hermes-message.schema.json — $defs.SafeModeStateUsed
  */
 export interface SafeModeStateUsed {

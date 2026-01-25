@@ -2,7 +2,6 @@
  * Error types for Hermes protocol
  * Standard error envelope for rejecting messages.
  *
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 5
  * @module types/errors
  */
 
@@ -14,7 +13,6 @@ import type { HermesVersion, TraceContext } from './core';
 
 /**
  * Error codes for Hermes protocol.
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 5
  * @see schema/hermes-message.schema.json — $defs.HermesErrorCode
  */
 export type HermesErrorCode =
@@ -38,7 +36,6 @@ export const HERMES_ERROR_CODES: readonly HermesErrorCode[] = [
 /**
  * Error response when rejecting Hermes messages.
  *
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 5
  * @see schema/hermes-message.schema.json — $defs.HermesError
  */
 export interface HermesError {

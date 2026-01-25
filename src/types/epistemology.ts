@@ -2,7 +2,6 @@
  * Epistemological types for Hermes protocol
  * Implements Deutschian/Popperian epistemology for clinical recommendations.
  *
- * @see 03-hermes-specs/04-hermes-epistemological-types.md
  * @see 00-overall-specs/0A-epistemology/01-hard-to-vary-explanations.md
  * @see 00-overall-specs/0A-epistemology/03-conjecture-and-refutation.md
  * @module types/epistemology
@@ -21,7 +20,6 @@
  * 2. Falsifiable (what would refute it?)
  * 3. Distinguishable by risk profile
  *
- * @see 03-hermes-specs/04-hermes-epistemological-types.md — Section 1
  * @see 00-overall-specs/0A-epistemology/03-conjecture-and-refutation.md
  */
 export type ClaimType =
@@ -54,7 +52,6 @@ export interface ClaimTypeRiskProfile {
  * High-risk claim types (diagnosis, treatment_rec, escalation) MUST include
  * falsification_criteria when used in advocate_clinical mode.
  *
- * @see 03-hermes-specs/04-hermes-epistemological-types.md — Section 1.2
  */
 export const CLAIM_TYPE_RISK: Record<ClaimType, ClaimTypeRiskProfile> = {
   observation: { riskLevel: 'low', requiresPopper: false },
@@ -91,7 +88,6 @@ export const CLAIM_TYPES: readonly ClaimType[] = [
  * every methodological element is load-bearing, making the
  * conclusions more resistant to ad-hoc adjustments.
  *
- * @see 03-hermes-specs/04-hermes-epistemological-types.md — Section 2
  * @see 00-overall-specs/0A-epistemology/01-hard-to-vary-explanations.md
  */
 export type EvidenceGrade =
@@ -113,7 +109,6 @@ export type EvidenceGrade =
  * Special grades (policy, patient_reported, calculated) are mapped
  * to equivalent positions in the main hierarchy for routing decisions.
  *
- * @see 03-hermes-specs/04-hermes-epistemological-types.md — Section 2.2
  */
 export const EVIDENCE_GRADE_STRENGTH: Record<EvidenceGrade, number> = {
   systematic_review: 1,
@@ -190,7 +185,6 @@ export function getEffectiveEvidenceGrade(grade: EvidenceGrade): EvidenceGrade {
  * - 0.0 = easy to vary (bad)
  * - 1.0 = hard to vary (good)
  *
- * @see 03-hermes-specs/04-hermes-epistemological-types.md — Section 3
  * @see 00-overall-specs/0A-epistemology/01-hard-to-vary-explanations.md
  */
 export interface HTVScore {
@@ -243,7 +237,6 @@ export const HTV_DEFAULT_WEIGHTS = {
 /**
  * Quality levels based on composite HTV score.
  *
- * @see 03-hermes-specs/04-hermes-epistemological-types.md — Section 3.3
  */
 export type HTVQualityLevel = 'excellent' | 'good' | 'moderate' | 'poor' | 'refuted';
 
@@ -292,7 +285,6 @@ export type UncertaintyFactorType =
 /**
  * A factor contributing to uncertainty in a recommendation.
  *
- * @see 03-hermes-specs/04-hermes-epistemological-types.md — Section 4.1
  */
 export interface UncertaintyDriver {
   /** The type of factor contributing to uncertainty */
@@ -309,7 +301,6 @@ export interface UncertaintyDriver {
  * Enhanced uncertainty representation with calibration details.
  * Extends the existing UncertaintyLevel with quantified scoring.
  *
- * @see 03-hermes-specs/04-hermes-epistemological-types.md — Section 4.2
  */
 export interface UncertaintyCalibration {
   /** Discrete uncertainty level for routing decisions */
@@ -340,7 +331,6 @@ export type RefutationAction =
  * Implements Popper's demarcation criterion: scientific claims
  * must be falsifiable.
  *
- * @see 03-hermes-specs/04-hermes-epistemological-types.md — Section 5
  * @see 00-overall-specs/0A-epistemology/03-conjecture-and-refutation.md
  */
 export interface FalsificationCriteria {

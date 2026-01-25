@@ -1,6 +1,5 @@
 /**
  * EvidenceRef fixtures for testing and examples.
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 2.6
  * @module fixtures/evidence
  */
 
@@ -9,7 +8,6 @@ import type { EvidenceRef } from '../types/evidence';
 /**
  * Systematic review evidence reference.
  * Highest quality evidence (hardest to vary).
- * @see 03-hermes-specs/04-hermes-epistemological-types.md — Section 2
  */
 export const systematicReviewEvidence: EvidenceRef = {
   evidence_id: 'ev-sr-001',

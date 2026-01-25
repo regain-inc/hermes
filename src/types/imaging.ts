@@ -1,8 +1,6 @@
 /**
  * Imaging data types for Hermes protocol
  * Implements "Reference, Don't Transfer" pattern for medical imaging.
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 2.9
- * @see 03-hermes-specs/05-hermes-imaging-data.md
  * @module types/imaging
  */
 
@@ -51,7 +49,6 @@ export const IMAGING_MODALITIES: readonly ImagingModality[] = [
  * Reference to an imaging study (not content).
  * Raw pixels stay in PHI storage; only references flow to clinical agents.
  *
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 2.9.1
  * @see schema/hermes-message.schema.json — $defs.ImagingStudyRef
  */
 export interface ImagingStudyRef {
@@ -232,7 +229,6 @@ export type Laterality = 'left' | 'right' | 'bilateral';
  * Derived findings from imaging studies.
  * These are KB-sized extractions, safe to include in snapshots.
  *
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 2.9.2
  * @see schema/hermes-message.schema.json — $defs.DerivedImagingFinding
  */
 export interface DerivedImagingFinding {
@@ -285,6 +281,5 @@ export interface DerivedImagingFinding {
 
 /**
  * Maximum size per derived imaging finding in bytes.
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 2.9.2
  */
 export const MAX_FINDING_SIZE_BYTES = 10_000;

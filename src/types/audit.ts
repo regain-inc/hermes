@@ -2,7 +2,6 @@
  * Audit event types for Hermes protocol
  * Standard audit envelope for observability and compliance.
  *
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 4
  * @module types/audit
  */
 
@@ -14,7 +13,6 @@ import type { HermesVersion, IsoDateTime, Mode, SubjectRef, TraceContext } from 
 
 /**
  * Types of audit events.
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 4
  * @see schema/hermes-message.schema.json — $defs.AuditEventType
  */
 export type AuditEventType =
@@ -51,7 +49,6 @@ export const AUDIT_EVENT_TYPES: readonly AuditEventType[] = [
  * Audit event for observability.
  * Common envelope so systems can emit events that are joinable by trace_id.
  *
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 4
  * @see schema/hermes-message.schema.json — $defs.AuditEvent
  */
 export interface AuditEvent {
@@ -99,10 +96,8 @@ export interface AuditEvent {
  * - If a system APPLIES a received ControlCommand, it MUST emit CONTROL_COMMAND_APPLIED
  *   (PHI-minimized), so auditors can reconstruct enforcement
  * - For VALIDATION_FAILED events related to integrity/replay/snapshot failures,
- *   deployments SHOULD use AuditEvent.tags as defined in:
- *   03-hermes-specs/03-hermes-deployment-security.md
+ *   deployments SHOULD use AuditEvent.tags for classification
  *
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 4.1
  */
 export const AUDIT_EMISSION_REQUIREMENTS = {
   CONTROL_COMMAND_ISSUED: 'MUST emit when issuing a ControlCommand',

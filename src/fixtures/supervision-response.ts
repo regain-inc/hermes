@@ -1,6 +1,5 @@
 /**
  * SupervisionResponse fixtures for testing and examples.
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 3.5
  * @module fixtures/supervision-response
  */
 
@@ -18,7 +17,6 @@ function isoDateTime(value: string): IsoDateTime {
 /**
  * Approved response fixture.
  * Demonstrates successful supervision with no constraints.
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 3.5
  */
 export const approvedSupervisionResponse: SupervisionResponse = {
   hermes_version: CURRENT_HERMES_VERSION,
@@ -222,7 +220,6 @@ export const requestMoreInfoResponse: SupervisionResponse = {
 /**
  * Partial approval response for multi-domain composition.
  * Demonstrates per-proposal decisions.
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 3.5.1
  */
 export const partialApprovalResponse: SupervisionResponse = {
   hermes_version: CURRENT_HERMES_VERSION,

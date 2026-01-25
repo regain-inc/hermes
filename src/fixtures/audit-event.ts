@@ -1,6 +1,5 @@
 /**
  * AuditEvent fixtures for testing and examples.
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 4
  * @module fixtures/audit-event
  */
 

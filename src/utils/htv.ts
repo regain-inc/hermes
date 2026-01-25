@@ -4,7 +4,6 @@
  * Based on David Deutsch's criterion: good explanations are those
  * where changing any detail would invalidate the explanation.
  *
- * @see 03-hermes-specs/04-hermes-epistemological-types.md — Section 3
  * @see 00-overall-specs/0A-epistemology/01-hard-to-vary-explanations.md
  * @module utils/htv
  */
@@ -83,7 +82,6 @@ function validateDimension(name: string, value: number): void {
  * @returns Complete HTVScore with composite
  * @throws Error if dimensions are invalid
  *
- * @see 03-hermes-specs/04-hermes-epistemological-types.md — Section 3.2
  */
 export function computeHTVScore(dimensions: HTVDimensions, weights: HTVWeights = {}): HTVScore {
   // Validate dimensions

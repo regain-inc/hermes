@@ -1,6 +1,5 @@
 /**
  * Conformance tests for Hermes JSON Schema validation.
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 14 (Conformance)
  */
 
 import { describe, expect, it } from 'bun:test';

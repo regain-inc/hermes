@@ -1,7 +1,6 @@
 /**
  * Tests for HTV score computation
  *
- * @see 03-hermes-specs/04-hermes-epistemological-types.md — Section 3
  * @see 00-overall-specs/0A-epistemology/01-hard-to-vary-explanations.md
  */
 

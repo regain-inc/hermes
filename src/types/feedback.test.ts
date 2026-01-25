@@ -1,6 +1,5 @@
 /**
  * Tests for Clinician Feedback types
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 4.2-4.3
  */
 
 import { describe, expect, it } from 'bun:test';

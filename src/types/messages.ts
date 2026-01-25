@@ -2,7 +2,6 @@
  * Hermes message union types and type guards
  * Provides discriminated union of all Hermes message types.
  *
- * @see 03-hermes-specs/02-hermes-contracts.md
  * @module types/messages
  */
 
@@ -44,7 +43,6 @@ export const HERMES_MESSAGE_TYPES: readonly HermesMessageType[] = [
  * Union of all Hermes message types.
  * This is the discriminated union that can represent any valid Hermes message.
  *
- * @see 03-hermes-specs/02-hermes-contracts.md
  */
 export type HermesMessage =
   | SupervisionRequest

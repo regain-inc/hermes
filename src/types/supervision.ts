@@ -1,7 +1,5 @@
 /**
  * Supervision contract types for Hermes protocol (Deutsch ↔ Popper)
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 3
- * @see 03-hermes-specs/01-hermes-system-spec.md — Section 3
  * @module types/supervision
  */
 
@@ -39,7 +37,6 @@ import type { HealthStateSnapshotRef } from './snapshot';
 
 /**
  * Input risk flags.
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 3.4
  */
 export type InputRiskFlag =
   | 'phi_detected'
@@ -61,7 +58,6 @@ export const INPUT_RISK_FLAGS: readonly InputRiskFlag[] = [
  * PHI-minimized risk flags about the inputs used to produce proposals.
  * Enables Popper to be conservative when multimodal inputs may be compromised.
  *
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 3.4
  */
 export interface InputRisk {
   /** Whether attachments are present in the input */
@@ -78,7 +74,6 @@ export interface InputRisk {
 
 /**
  * Relevant prior override for supervision request context.
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 3.4
  * @see schema/hermes-message.schema.json — $defs.PriorOverride
  */
 export interface PriorOverride {
@@ -104,7 +99,6 @@ export interface PriorOverride {
 
 /**
  * Unresolved override conflict for supervision request.
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 3.4
  * @see schema/hermes-message.schema.json — $defs.UnresolvedOverrideConflict
  */
 export interface UnresolvedOverrideConflict {
@@ -126,7 +120,6 @@ export interface UnresolvedOverrideConflict {
 
 /**
  * Alert fatigue indicators.
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 3.4
  */
 export interface AlertFatigueIndicators {
   /** Average response time < threshold (e.g., 30s) */
@@ -139,7 +132,6 @@ export interface AlertFatigueIndicators {
 
 /**
  * Feedback metrics for alert fatigue analysis.
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 3.4
  * @see schema/hermes-message.schema.json — $defs.FeedbackMetrics
  */
 export interface FeedbackMetrics {
@@ -174,8 +166,6 @@ export interface SupervisionRequestAuditRedaction extends AuditRedactionBase {
 /**
  * Request from Deutsch to Popper for supervision.
  *
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 3.4
- * @see 03-hermes-specs/01-hermes-system-spec.md — Section 3.1
  * @see schema/hermes-message.schema.json — $defs.SupervisionRequest
  */
 export interface SupervisionRequest {
@@ -251,7 +241,6 @@ export interface SupervisionRequest {
 
 /**
  * Constraints on approved proposals.
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 3.5
  * @see schema/hermes-message.schema.json — $defs.ApprovedConstraints
  */
 export interface ApprovedConstraints {
@@ -269,7 +258,6 @@ export interface ApprovedConstraints {
  * Decision for an individual proposal.
  * Used for partial approval scenarios in multi-domain composition.
  *
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 3.5
  * @see schema/hermes-message.schema.json — $defs.PerProposalDecision
  */
 export interface PerProposalDecision {
@@ -300,8 +288,6 @@ export interface SupervisionResponseAuditRedaction extends AuditRedactionBase {
 /**
  * Response from Popper to Deutsch with supervision decision.
  *
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 3.5
- * @see 03-hermes-specs/01-hermes-system-spec.md — Section 3.2
  * @see schema/hermes-message.schema.json — $defs.SupervisionResponse
  */
 export interface SupervisionResponse {

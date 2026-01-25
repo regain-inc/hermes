@@ -1,6 +1,5 @@
 /**
  * Tests for Hermes Message union types and type guards
- * @see 03-hermes-specs/02-hermes-contracts.md
  */
 
 import { describe, expect, it } from 'bun:test';

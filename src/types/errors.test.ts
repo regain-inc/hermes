@@ -1,6 +1,5 @@
 /**
  * Tests for Hermes Error types
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 5
  */
 
 import { describe, expect, it } from 'bun:test';

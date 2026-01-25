@@ -1,6 +1,5 @@
 /**
  * Health State Snapshot types for Hermes protocol
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 2.5
  * @module types/snapshot
  */
 
@@ -32,7 +31,6 @@ export const SNAPSHOT_SOURCES: readonly SnapshotSource[] = [
 /**
  * Quality flags for snapshot data.
  * Contains PHI-minimized quality indicators.
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 2.5
  */
 export interface SnapshotQuality {
   /** Signals that are missing from the snapshot (e.g., ["potassium", "creatinine"]) */
@@ -49,7 +47,6 @@ export interface SnapshotQuality {
  *
  * Both Deutsch and Popper reason over the *same snapshot* so decisions are reproducible.
  *
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 2.5
  * @see schema/hermes-message.schema.json — $defs.HealthStateSnapshotRef
  */
 export interface HealthStateSnapshotRef {
@@ -59,7 +56,6 @@ export interface HealthStateSnapshotRef {
   /**
    * Base64-encoded SHA-256 hash of the canonical JSON snapshot payload.
    * Strongly recommended for reproducibility in advocate_clinical mode.
-   * @see 03-hermes-specs/02-hermes-contracts.md — Section 2.5.1
    */
   readonly snapshot_hash?: string;
 
@@ -82,21 +78,18 @@ export interface HealthStateSnapshotRef {
   /**
    * References to imaging studies (pointers, NOT raw pixels).
    * Raw imaging data MUST NEVER be included in the snapshot.
-   * @see 03-hermes-specs/05-hermes-imaging-data.md
    */
   readonly imaging_studies?: readonly ImagingStudyRef[];
 
   /**
    * Derived findings extracted from imaging (KB-sized, safe to include).
    * These are outputs of radiologists or imaging AI pipelines.
-   * @see 03-hermes-specs/05-hermes-imaging-data.md
    */
   readonly imaging_findings?: readonly DerivedImagingFinding[];
 
   /**
    * Estimated uncompressed size in bytes for validation.
    * Deployments SHOULD validate: estimated_size_bytes <= 1,000,000 (1 MB).
-   * @see 03-hermes-specs/02-hermes-contracts.md — Section 2.5.2
    */
   readonly estimated_size_bytes?: number;
 
@@ -104,13 +97,11 @@ export interface HealthStateSnapshotRef {
    * Prior clinician overrides for this patient (PHI-minimized).
    * Populated by snapshot builder when relevant history exists.
    * Used by Deutsch for patient-specific case reassessment (NOT RLHF).
-   * @see 03-hermes-specs/02-hermes-contracts.md — Section 4.3
    */
   readonly prior_clinician_overrides?: ClinicianOverrideHistory;
 }
 
 /**
  * Maximum allowed snapshot size in bytes.
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 2.5.2
  */
 export const MAX_SNAPSHOT_SIZE_BYTES = 1_000_000;

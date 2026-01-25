@@ -1,6 +1,5 @@
 /**
  * Builder for SupervisionResponse messages
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 3.5
  * @module builders/supervision-response
  */
 

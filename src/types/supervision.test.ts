@@ -1,6 +1,5 @@
 /**
  * Tests for Supervision types
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 3
  */
 
 import { describe, expect, it } from 'bun:test';

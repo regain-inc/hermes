@@ -1,6 +1,5 @@
 /**
  * HTVScore fixtures for testing and examples.
- * @see 03-hermes-specs/04-hermes-epistemological-types.md — Section 3.4
  * @module fixtures/htv-score
  */
 
@@ -15,7 +14,6 @@ import type { HTVScore } from '../types/epistemology';
  * with specific dosing, clear monitoring parameters, and documented
  * contraindication conditions.
  *
- * @see 03-hermes-specs/04-hermes-epistemological-types.md — Section 3.3
  */
 export const excellentHTVScore: HTVScore = {
   interdependence: 0.95,
@@ -33,7 +31,6 @@ export const excellentHTVScore: HTVScore = {
  * Example use case: Lifestyle recommendation supported by cohort studies,
  * with measurable targets and defined evaluation criteria.
  *
- * @see 03-hermes-specs/04-hermes-epistemological-types.md — Section 3.3
  */
 export const goodHTVScore: HTVScore = {
   interdependence: 0.9,
@@ -51,7 +48,6 @@ export const goodHTVScore: HTVScore = {
  * Example use case: Diagnostic hypothesis based on pattern recognition
  * but missing confirmatory tests or clear refutation conditions.
  *
- * @see 03-hermes-specs/04-hermes-epistemological-types.md — Section 3.3
  */
 export const moderateHTVScore: HTVScore = {
   interdependence: 0.6,
@@ -69,7 +65,6 @@ export const moderateHTVScore: HTVScore = {
  * Example use case: Vague recommendation without specific evidence,
  * unclear falsification conditions, or excessive ad-hoc elements.
  *
- * @see 03-hermes-specs/04-hermes-epistemological-types.md — Section 3.3
  */
 export const poorHTVScore: HTVScore = {
   interdependence: 0.2,
@@ -107,7 +102,6 @@ export const borderlinePoorHTVScore: HTVScore = {
  * Refuted HTV score (below 0.3).
  * Indicates failed hypothesis that should not proceed.
  *
- * @see 03-hermes-specs/04-hermes-epistemological-types.md — Section 3.3
  */
 export const refutedHTVScore: HTVScore = {
   interdependence: 0.2,

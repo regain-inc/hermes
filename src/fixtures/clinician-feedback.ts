@@ -1,6 +1,5 @@
 /**
  * ClinicianFeedbackEvent fixtures for testing and examples.
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 4.2
  * @module fixtures/clinician-feedback
  */
 
@@ -18,7 +17,6 @@ function isoDateTime(value: string): IsoDateTime {
 /**
  * Accepted feedback fixture.
  * Clinician approved Deutsch's proposal as-is.
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 4.2
  */
 export const acceptedFeedback: ClinicianFeedbackEvent = {
   hermes_version: CURRENT_HERMES_VERSION,
@@ -68,7 +66,6 @@ export const acceptedFeedback: ClinicianFeedbackEvent = {
 /**
  * Rejected feedback fixture with permanent contraindication.
  * Clinician rejected due to patient-specific safety concern.
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 4.2
  */
 export const rejectedPermanentFeedback: ClinicianFeedbackEvent = {
   hermes_version: CURRENT_HERMES_VERSION,
@@ -126,7 +123,6 @@ export const rejectedPermanentFeedback: ClinicianFeedbackEvent = {
 /**
  * Modified feedback fixture.
  * Clinician modified the proposal with an alternative.
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 4.2
  */
 export const modifiedFeedback: ClinicianFeedbackEvent = {
   hermes_version: CURRENT_HERMES_VERSION,
@@ -190,7 +186,6 @@ export const modifiedFeedback: ClinicianFeedbackEvent = {
 /**
  * Deferred feedback fixture.
  * Clinician needs more information before deciding.
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 4.2
  */
 export const deferredFeedback: ClinicianFeedbackEvent = {
   hermes_version: CURRENT_HERMES_VERSION,
@@ -239,7 +234,6 @@ export const deferredFeedback: ClinicianFeedbackEvent = {
 /**
  * Feedback with conflict.
  * Demonstrates disagreement with prior clinician decision.
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 4.2
  */
 export const conflictingFeedback: ClinicianFeedbackEvent = {
   hermes_version: CURRENT_HERMES_VERSION,

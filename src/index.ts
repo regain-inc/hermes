@@ -2,7 +2,6 @@
  * @regain/hermes - Main entry point
  * Hermes protocol types, validation, and utilities.
  *
- * @see 03-hermes-specs/02-hermes-contracts.md
  * @module @regain/hermes
  */
 

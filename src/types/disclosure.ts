@@ -1,6 +1,5 @@
 /**
  * Transparency disclosure types for Hermes protocol
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 2.7
  * @module types/disclosure
  */
 
@@ -14,7 +13,6 @@ import type { UncertaintyLevel } from './epistemology';
  * Standard "glass box" explanation for clinicians and patients.
  * Provides transparency about AI reasoning and limitations.
  *
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 2.7
  */
 export interface DisclosureBundle {
   /** Plain language summary for patients */

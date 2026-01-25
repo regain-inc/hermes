@@ -1,6 +1,5 @@
 /**
  * DateTime utilities for IsoDateTime type
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 1.2
  * @module utils/datetime
  */
 

@@ -3,7 +3,6 @@
  * First-class message type for demographic bias detection per FDA AI/ML
  * post-market surveillance requirements.
  *
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 4.4
  * @module types/bias
  */
 
@@ -23,7 +22,6 @@ import type { RationaleCategory } from './feedback';
 
 /**
  * Type of bias detected.
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 4.4
  */
 export type BiasDetectionType =
   | 'demographic_override_disparity'
@@ -53,7 +51,6 @@ export const BIAS_SEVERITIES: readonly BiasSeverity[] = ['info', 'warning', 'cri
 
 /**
  * Analysis period for bias detection.
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 4.4
  */
 export interface BiasAnalysisPeriod {
   /** Start of analysis period (ISO datetime) */
@@ -87,7 +84,6 @@ export const BIAS_DIMENSION_TYPES: readonly BiasDimensionType[] = [
 
 /**
  * What dimension showed bias.
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 4.4
  */
 export interface BiasAffectedDimension {
   /** Type of dimension */
@@ -110,7 +106,6 @@ export interface BiasStatisticalSignificance {
 
 /**
  * Statistical metrics for bias detection.
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 4.4
  */
 export interface BiasMetrics {
   /** Overall override rate (0.0-1.0) */
@@ -133,7 +128,6 @@ export interface BiasMetrics {
 
 /**
  * Minimum sample size for statistical validity.
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 4.4
  */
 export const MIN_BIAS_SAMPLE_SIZE = 30;
 
@@ -187,7 +181,6 @@ export const BIAS_RECOMMENDATION_ACTIONS: readonly BiasRecommendationAction[] = 
 
 /**
  * Recommendation for bias remediation.
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 4.4
  */
 export interface BiasRecommendation {
   /** Priority of this recommendation */
@@ -200,7 +193,6 @@ export interface BiasRecommendation {
 
 /**
  * Regulatory context for bias detection.
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 4.4
  */
 export interface BiasRegulatoryContext {
   /** FDA requirement reference (e.g., "Post-market surveillance for demographic bias") */
@@ -215,7 +207,6 @@ export interface BiasRegulatoryContext {
 
 /**
  * Audit redaction for bias detection event.
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 4.4
  */
 export interface BiasDetectionAuditRedaction extends AuditRedactionBase {
   /** Type of bias detected */
@@ -242,7 +233,6 @@ export interface BiasDetectionAuditRedaction extends AuditRedactionBase {
  * - Intervention type bias analysis
  * - Clinician specialty bias detection
  *
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 4.4
  * @see schema/hermes-message.schema.json — $defs.BiasDetectionEvent
  */
 export interface BiasDetectionEvent {
@@ -299,7 +289,6 @@ export interface BiasDetectionEvent {
 
 /**
  * Recommended detection thresholds for bias (deployments MAY adjust per policy).
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 4.4.1
  */
 export const BIAS_DETECTION_THRESHOLDS = {
   /** Rate difference for warning severity */

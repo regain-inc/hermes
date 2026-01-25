@@ -1,7 +1,6 @@
 /**
  * Tests for epistemology types
  *
- * @see 03-hermes-specs/04-hermes-epistemological-types.md
  */
 
 import { describe, expect, it } from 'bun:test';

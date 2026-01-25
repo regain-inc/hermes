@@ -1,6 +1,5 @@
 /**
  * Trace utilities for distributed tracing
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 2.2
  * @module utils/trace
  */
 

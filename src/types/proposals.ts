@@ -1,6 +1,5 @@
 /**
  * Proposed intervention types for Hermes protocol
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 3.3
  * @module types/proposals
  */
 
@@ -41,7 +40,6 @@ export interface DeutschRiskEstimate {
  * Base type for all proposed interventions.
  * Hermes defines structured proposals so Popper can evaluate them quickly.
  *
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 3.3
  */
 export interface ProposedInterventionBase {
   /** Unique identifier for this proposal */
@@ -121,7 +119,6 @@ export type CareNavigationAction =
 
 /**
  * Care navigation proposal (scheduling, logistics, reminders).
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 3.3
  */
 export interface CareNavigationProposal extends ProposedInterventionBase {
   readonly kind: 'CARE_NAVIGATION';
@@ -144,7 +141,6 @@ export type TriageDestination = 'care_team' | 'cardiologist' | 'primary_care' | 
 
 /**
  * Triage route proposal (route to care team/clinician with a reason).
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 3.3
  */
 export interface TriageRouteProposal extends ProposedInterventionBase {
   readonly kind: 'TRIAGE_ROUTE';
@@ -162,7 +158,6 @@ export type MedicationChangeType = 'start' | 'stop' | 'titrate' | 'hold';
  * Medication order proposal (clinical mode only).
  * NOTE: Contains PHI; implementations MUST NOT log without explicit redaction.
  *
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 3.3
  */
 export interface MedicationOrderProposal extends ProposedInterventionBase {
   readonly kind: 'MEDICATION_ORDER_PROPOSAL';
@@ -192,7 +187,6 @@ export interface MedicationOrderProposal extends ProposedInterventionBase {
 
 /**
  * Patient message proposal (what will be shown to the patient).
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 3.3
  */
 export interface PatientMessageProposal extends ProposedInterventionBase {
   readonly kind: 'PATIENT_MESSAGE';
@@ -202,7 +196,6 @@ export interface PatientMessageProposal extends ProposedInterventionBase {
 
 /**
  * Lifestyle modification proposal (physical activity, sleep, stress management).
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 3.3
  */
 export interface LifestyleModificationProposal extends ProposedInterventionBase {
   readonly kind: 'LIFESTYLE_MODIFICATION_PROPOSAL';
@@ -216,7 +209,6 @@ export interface LifestyleModificationProposal extends ProposedInterventionBase 
 
 /**
  * Nutrition plan proposal (dietary modifications, meal planning).
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 3.3
  */
 export interface NutritionPlanProposal extends ProposedInterventionBase {
   readonly kind: 'NUTRITION_PLAN_PROPOSAL';
@@ -230,7 +222,6 @@ export interface NutritionPlanProposal extends ProposedInterventionBase {
 
 /**
  * Behavioral intervention proposal (behavioral health, adherence support).
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 3.3
  */
 export interface BehavioralInterventionProposal extends ProposedInterventionBase {
   readonly kind: 'BEHAVIORAL_INTERVENTION_PROPOSAL';
@@ -244,7 +235,6 @@ export interface BehavioralInterventionProposal extends ProposedInterventionBase
 
 /**
  * Other proposal (escape hatch for future types without breaking the contract).
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 3.3
  */
 export interface OtherProposal extends ProposedInterventionBase {
   readonly kind: 'OTHER';
@@ -259,7 +249,6 @@ export interface OtherProposal extends ProposedInterventionBase {
 
 /**
  * Union type of all concrete proposal types.
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 3.3
  */
 export type ProposedIntervention =
   | CareNavigationProposal

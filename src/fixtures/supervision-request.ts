@@ -1,6 +1,5 @@
 /**
  * SupervisionRequest fixtures for testing and examples.
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 3.4
  * @module fixtures/supervision-request
  */
 
@@ -18,7 +17,6 @@ function isoDateTime(value: string): IsoDateTime {
 /**
  * Minimal valid SupervisionRequest fixture.
  * Contains only required fields with a single patient message proposal.
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 3.4
  */
 export const minimalSupervisionRequest: SupervisionRequest = {
   hermes_version: CURRENT_HERMES_VERSION,
@@ -95,7 +93,6 @@ export const fullSupervisionRequest: SupervisionRequest = {
 /**
  * SupervisionRequest with medication proposal.
  * Demonstrates high-risk clinical proposal with HTV score and evidence.
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 3.3 (Proposals)
  */
 export const medicationSupervisionRequest: SupervisionRequest = {
   hermes_version: CURRENT_HERMES_VERSION,
@@ -236,7 +233,6 @@ export const triageSupervisionRequest: SupervisionRequest = {
 /**
  * SupervisionRequest with prior clinician overrides.
  * Demonstrates case reassessment workflow.
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 4.2-4.3
  */
 export const requestWithPriorOverrides: SupervisionRequest = {
   ...minimalSupervisionRequest,

@@ -5,7 +5,6 @@
  * Uncertainty is computed based on multiple factors including evidence grade,
  * HTV score, data quality, and staleness.
  *
- * @see 03-hermes-specs/04-hermes-epistemological-types.md — Section 4
  * @see 00-overall-specs/0A-epistemology/04-fallibilism-and-error-correction.md
  * @module utils/uncertainty
  */
@@ -184,7 +183,6 @@ function computeStalenessContribution(dataAgeDays: number): UncertaintyDriver | 
  * @param inputs - The uncertainty input factors
  * @returns Calibrated uncertainty with level, score, and drivers
  *
- * @see 03-hermes-specs/04-hermes-epistemological-types.md — Section 4.3
  */
 export function computeUncertainty(inputs: UncertaintyInputs): UncertaintyCalibration {
   const drivers: UncertaintyDriver[] = [];

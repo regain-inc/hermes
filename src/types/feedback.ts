@@ -1,6 +1,5 @@
 /**
  * Clinician feedback types for Hermes protocol
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 4.2-4.3
  * @module types/feedback
  */
 
@@ -22,7 +21,6 @@ import type { HealthStateSnapshotRef } from './snapshot';
 
 /**
  * Clinician's decision on a routed proposal.
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 4.2.1
  * @see schema/hermes-message.schema.json — $defs.ClinicianAction
  */
 export type ClinicianAction =
@@ -49,7 +47,6 @@ export const CLINICIAN_ACTIONS: readonly ClinicianAction[] = [
  * Structured categories for clinician override rationales.
  * Based on malpractice documentation best practices and real-world override patterns.
  *
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 4.2.2
  * @see schema/hermes-message.schema.json — $defs.RationaleCategory
  */
 export type RationaleCategory =
@@ -207,7 +204,6 @@ export interface CareHandoff {
  * Patient-specific override context for case reassessment.
  * DISTINCT from RLHF (model training) — this is patient-specific context.
  *
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 4.3
  * @see schema/hermes-message.schema.json — $defs.ClinicianOverrideHistory
  */
 export interface ClinicianOverrideHistory {
@@ -242,25 +238,21 @@ export interface ClinicianOverrideHistory {
 
 /**
  * Maximum number of active overrides per patient.
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 4.3.1
  */
 export const MAX_ACTIVE_OVERRIDES = 50;
 
 /**
  * Maximum number of unresolved conflicts.
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 4.3.1
  */
 export const MAX_UNRESOLVED_CONFLICTS = 10;
 
 /**
  * Maximum length of rationale summary in characters.
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 4.3.1
  */
 export const MAX_RATIONALE_SUMMARY_LENGTH = 500;
 
 /**
  * Maximum size of prior_clinician_overrides object in bytes.
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 4.3.1
  */
 export const MAX_OVERRIDE_HISTORY_SIZE_BYTES = 50_000;
 
@@ -270,7 +262,6 @@ export const MAX_OVERRIDE_HISTORY_SIZE_BYTES = 50_000;
 
 /**
  * Reference to the clinician who provided feedback.
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 4.2.3
  */
 export interface ClinicianRef {
   /** Pseudonymous clinician ID (NOT name/NPI in audit) */
@@ -295,7 +286,6 @@ export interface ContraindicationDetails {
  * Structured rationale for clinician feedback.
  * REQUIRED (not optional) per liability best practices.
  *
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 4.2.3
  */
 export interface ClinicianRationale {
   /** Brief explanation (MUST NOT include direct identifiers) */
@@ -326,7 +316,6 @@ export interface MedicationChange {
 
 /**
  * What clinician actually did (if modified).
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 4.2.3
  */
 export interface ModifiedAction {
   /** Type of intervention actually performed */
@@ -356,7 +345,6 @@ export type FeedbackConflictType = 'reversal' | 'escalation' | 'disagreement';
 
 /**
  * Conflict with prior feedback.
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 4.2.3
  */
 export interface FeedbackConflict {
   /** Previous feedback that this contradicts */
@@ -376,7 +364,6 @@ export type AgeGroup = 'pediatric' | 'adult' | 'geriatric';
 
 /**
  * Demographic context for bias monitoring per FDA requirements.
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 4.2.3
  */
 export interface DemographicContext {
   /** Age group of the patient */
@@ -406,7 +393,6 @@ export const RESPONSE_TIME_BUCKETS: readonly ResponseTimeBucket[] = [
 
 /**
  * Audit redaction for clinician feedback event.
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 4.2.3
  */
 export interface ClinicianFeedbackAuditRedaction extends AuditRedactionBase {
   /** The clinician's action */
@@ -428,7 +414,6 @@ export interface ClinicianFeedbackAuditRedaction extends AuditRedactionBase {
  * - Conflict resolution when multiple clinicians disagree
  * - Demographic bias monitoring per FDA AI/ML guidance
  *
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 4.2.3
  * @see schema/hermes-message.schema.json — $defs.ClinicianFeedbackEvent
  */
 export interface ClinicianFeedbackEvent {

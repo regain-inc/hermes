@@ -1,7 +1,6 @@
 /**
  * Tests for uncertainty calibration
  *
- * @see 03-hermes-specs/04-hermes-epistemological-types.md — Section 4
  * @see 00-overall-specs/0A-epistemology/04-fallibilism-and-error-correction.md
  */
 

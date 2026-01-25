@@ -4,7 +4,6 @@
  * Provides factory functions for creating epistemological types
  * with validation and sensible defaults.
  *
- * @see 03-hermes-specs/04-hermes-epistemological-types.md
  * @module builders/epistemology
  */
 

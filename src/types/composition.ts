@@ -1,6 +1,5 @@
 /**
  * Multi-domain composition types for Hermes protocol
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 3.3.1
  * @see ../01-deutsch-specs/04-multi-domain-composition-spec.md
  * @module types/composition
  */
@@ -18,7 +17,6 @@ import type { EvidenceRef } from './evidence';
  * Informational (NOT a priority hierarchy).
  * Deployments SHOULD prefer the core set for consistency.
  *
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 3.3.1
  * @see schema/hermes-message.schema.json — $defs.DomainCategory
  */
 export type DomainCategory =
@@ -47,7 +45,6 @@ export const DOMAIN_CATEGORIES: readonly DomainCategory[] = [
 
 /**
  * Resolution strategies for cross-domain conflicts.
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 3.3.1
  * @see schema/hermes-message.schema.json — $defs.ResolutionStrategy
  */
 export type ResolutionStrategy =
@@ -98,7 +95,6 @@ export interface DomainDataQuality {
  * Domain contribution tracking.
  * Every domain that attempted to participate MUST be included.
  *
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 3.3.1
  * @see schema/hermes-message.schema.json — $defs.ContributingDomain
  */
 export interface ContributingDomain {
@@ -148,7 +144,6 @@ export interface ConflictUncertainty {
  * Cross-domain conflict representation.
  * Surfaced by Deutsch for Popper's independent evaluation.
  *
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 3.3.1
  * @see schema/hermes-message.schema.json — $defs.CrossDomainConflict
  */
 export interface CrossDomainConflict {
@@ -222,7 +217,6 @@ export type RuleEngineStatus = 'healthy' | 'degraded' | 'failed';
 /**
  * Composition metadata for audit and reproducibility.
  *
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 3.3.1
  * @see schema/hermes-message.schema.json — $defs.CompositionMetadata
  */
 export interface CompositionMetadata {
@@ -250,7 +244,6 @@ export interface CompositionMetadata {
  * Popper's evaluation of a cross-domain conflict resolution.
  * Explanatory only; any override MUST be reflected in the decision.
  *
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 3.5
  * @see schema/hermes-message.schema.json — $defs.ConflictEvaluation
  */
 export interface ConflictEvaluation {

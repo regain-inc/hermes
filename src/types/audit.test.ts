@@ -1,6 +1,5 @@
 /**
  * Tests for Audit Event types
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 4
  */
 
 import { describe, expect, it } from 'bun:test';

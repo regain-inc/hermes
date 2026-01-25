@@ -1,7 +1,5 @@
 /**
  * Evidence reference types for Hermes protocol
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 2.6
- * @see 03-hermes-specs/04-hermes-epistemological-types.md
  * @module types/evidence
  */
 
@@ -13,7 +11,6 @@ import type { EvidenceGrade } from './epistemology';
 
 /**
  * Type of evidence supporting a claim or recommendation.
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 2.6
  */
 export type EvidenceType =
   | 'guideline'
@@ -39,8 +36,6 @@ export const EVIDENCE_TYPES: readonly EvidenceType[] = [
  * Reference to supporting evidence.
  * Provides "why" without copying large documents into messages.
  *
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 2.6
- * @see 03-hermes-specs/04-hermes-epistemological-types.md — Section 2.4
  */
 export interface EvidenceRef {
   /** Unique identifier for this evidence reference */

@@ -1,6 +1,5 @@
 /**
  * Hermes JSON Schema Validator
- * @see 03-hermes-specs/02-hermes-contracts.md - Section 14 (Conformance)
  * @module schema/validator
  */
 
@@ -49,7 +48,6 @@ const ajv = createAjv();
  * Validate a Hermes message against the schema.
  * @param message - The message to validate (unknown type for runtime validation)
  * @returns Validation result with errors if invalid
- * @see 03-hermes-specs/02-hermes-contracts.md - Section 14
  */
 export function validateHermesMessage(message: unknown): ValidationResult {
   const validate = ajv.getSchema(hermesSchema.$id);

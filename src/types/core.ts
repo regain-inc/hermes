@@ -1,6 +1,5 @@
 /**
  * Core types for Hermes protocol
- * @see 03-hermes-specs/02-hermes-contracts.md
  * @module types/core
  */
 
@@ -36,7 +35,6 @@ export interface HermesOptions {
 
 /**
  * Hermes protocol version in semver format.
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 1.1
  * @see schema/hermes-message.schema.json — $defs.HermesVersion
  */
 export type HermesVersion = `${number}.${number}.${number}`;
@@ -49,7 +47,6 @@ export const CURRENT_HERMES_VERSION: HermesVersion = '1.6.0';
 /**
  * ISO 8601 datetime string with timezone.
  * Pattern: YYYY-MM-DDTHH:mm:ss.sssZ or YYYY-MM-DDTHH:mm:ss±HH:MM
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 1.2
  * @see schema/hermes-message.schema.json — $defs.IsoDateTime
  */
 export type IsoDateTime = string & { readonly __brand: 'IsoDateTime' };
@@ -58,7 +55,6 @@ export type IsoDateTime = string & { readonly __brand: 'IsoDateTime' };
  * Operational mode determines clinical supervision requirements.
  * - 'wellness': Lifestyle/wellness guidance, lower supervision
  * - 'advocate_clinical': Clinical recommendations, strict supervision
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 2.1
  * @see schema/hermes-message.schema.json — $defs.Mode
  */
 export type Mode = 'wellness' | 'advocate_clinical';
@@ -69,7 +65,6 @@ export type Mode = 'wellness' | 'advocate_clinical';
 
 /**
  * Producer system identifier for distributed tracing.
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 2.2
  */
 export interface TraceProducer {
   readonly system: 'deutsch' | 'popper' | 'gateway' | 'other';
@@ -80,7 +75,6 @@ export interface TraceProducer {
 
 /**
  * Cryptographic signature for message authentication.
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 2.2
  */
 export interface TraceSignature {
   readonly alg: 'hmac-sha256' | 'jws';
@@ -90,7 +84,6 @@ export interface TraceSignature {
 
 /**
  * Distributed tracing context for observability.
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 2.2
  * @see schema/hermes-message.schema.json — $defs.TraceContext
  */
 export interface TraceContext {
@@ -104,7 +97,6 @@ export interface TraceContext {
 
 /**
  * Reference to the patient subject.
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 2.3
  * @see schema/hermes-message.schema.json — $defs.SubjectRef
  */
 export interface SubjectRef {
@@ -116,7 +108,6 @@ export interface SubjectRef {
 /**
  * Base type for audit redaction summaries.
  * Contains PHI-free summary for logging.
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 2.4
  * @see schema/hermes-message.schema.json — $defs.AuditRedactionBase
  */
 export interface AuditRedactionBase {
@@ -129,7 +120,6 @@ export interface AuditRedactionBase {
 
 /**
  * Reason codes for supervision decisions.
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 3.2
  * @see schema/hermes-message.schema.json — $defs.ReasonCode
  */
 export type ReasonCode =
@@ -168,7 +158,6 @@ export const REASON_CODES: readonly ReasonCode[] = [
 
 /**
  * Decision outcomes from Popper supervision.
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 3.1
  * @see schema/hermes-message.schema.json — $defs.SupervisionDecision
  */
 export type SupervisionDecision =
@@ -193,7 +182,6 @@ export const SUPERVISION_DECISIONS: readonly SupervisionDecision[] = [
 
 /**
  * Types of proposed interventions.
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 4.1
  * @see schema/hermes-message.schema.json — $defs.ProposedInterventionKind
  */
 export type ProposedInterventionKind =

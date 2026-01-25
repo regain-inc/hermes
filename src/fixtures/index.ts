@@ -1,6 +1,5 @@
 /**
  * Fixtures module - Test fixtures and examples for Hermes messages.
- * @see 03-hermes-specs/02-hermes-contracts.md — Section 7 (Test Fixtures)
  * @module fixtures
  */
 

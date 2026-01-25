@@ -34,13 +34,24 @@ export function generateSpanId(): string {
 }
 
 /**
- * Creates a new TraceContext with a fresh trace ID.
- * @param producer - The producer system information
+ * Options for creating a TraceContext.
+ */
+export interface CreateTraceContextOptions extends TraceProducer {
+  /** Use an existing trace ID instead of generating a new one */
+  existingTraceId?: string;
+}
+
+/**
+ * Creates a new TraceContext with a fresh or existing trace ID.
+ * @param options - The producer system information and optional existing trace ID
  * @returns New TraceContext
  */
-export function createTraceContext(producer: TraceProducer): TraceContext {
+export function createTraceContext(options: CreateTraceContextOptions): TraceContext {
+  const { existingTraceId, ...producerFields } = options;
+  const producer: TraceProducer = producerFields;
+
   return {
-    trace_id: generateTraceId(),
+    trace_id: existingTraceId ?? generateTraceId(),
     span_id: generateSpanId(),
     created_at: createIsoDateTime(),
     producer,
@@ -54,10 +65,7 @@ export function createTraceContext(producer: TraceProducer): TraceContext {
  * @param producer - Optional new producer, defaults to parent's producer
  * @returns New TraceContext as a child span
  */
-export function createSpan(
-  parent: TraceContext,
-  producer?: TraceProducer
-): TraceContext {
+export function createSpan(parent: TraceContext, producer?: TraceProducer): TraceContext {
   const context: TraceContext = {
     trace_id: parent.trace_id,
     span_id: generateSpanId(),

@@ -2,21 +2,19 @@ import { describe, expect, it } from 'bun:test';
 import {
   CURRENT_HERMES_VERSION,
   MODES,
+  PROPOSED_INTERVENTION_KINDS,
   REASON_CODES,
   SUPERVISION_DECISIONS,
-  PROPOSED_INTERVENTION_KINDS,
 } from './core';
 import type {
-  HermesVersion,
+  AuditRedactionBase,
   IsoDateTime,
-  Mode,
-  ReasonCode,
-  SupervisionDecision,
   ProposedInterventionKind,
+  ReasonCode,
+  SubjectRef,
+  SupervisionDecision,
   TraceContext,
   TraceProducer,
-  SubjectRef,
-  AuditRedactionBase,
 } from './core';
 
 describe('Core Types', () => {

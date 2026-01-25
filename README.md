@@ -192,8 +192,6 @@ import {
 
 This package implements **Hermes v1.6.0**.
 
-For the full protocol specification, see the [Hermes Contract Documentation](https://github.com/regain-inc/hermes/tree/main/docs).
-
 ## License
 
 MIT - see [LICENSE](./LICENSE) for details.

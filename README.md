@@ -1,35 +1,66 @@
-# @regain/hermes
+# Regain Hermes™
 
-> TypeScript types, validation, and utilities for the Hermes clinical supervision protocol.
+> The industry-standard protocol for safe, auditable, and traceable clinical AI supervision.
 
 [![CI](https://github.com/regain-inc/hermes/actions/workflows/ci.yml/badge.svg)](https://github.com/regain-inc/hermes/actions/workflows/ci.yml)
 [![npm version](https://img.shields.io/npm/v/@regain/hermes.svg)](https://www.npmjs.com/package/@regain/hermes)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 ## Overview
 
-Hermes is a protocol for clinical AI supervision, enabling safe communication between AI agents (Deutsch) and supervision systems (Popper). This package provides:
+Regain Hermes™ is a protocol for clinical AI supervision. It defines the **Epistemological Contract** required for safe communication between reasoning agents (the "Brain") and independent supervision systems (the "Shield").
 
-- **TypeScript Types** - Complete type definitions for all Hermes messages
-- **JSON Schema Validation** - Runtime validation using AJV
-- **Test Fixtures** - Ready-to-use message examples for testing
-- **Epistemology Utilities** - HTV scoring, uncertainty calibration, evidence grading
+By standardizing how AI systems propose interventions, provide evidence, and measure uncertainty, Hermes enables a modular ecosystem of trusted clinical AI that is regulatory-ready from day one.
+
+Read our [Project Vision](./VISION.md) to learn how we are building the "Grammar of Safety."
+
+## Package Features
+
+This package provides the reference implementation of the Hermes protocol:
+
+- **TypeScript Types** - Complete type definitions for all Hermes messages.
+- **JSON Schema Validation** - Runtime validation for inter-agent communication.
+- **Epistemology Utilities** - Hard2Vary™ (HTV) scoring, uncertainty calibration, and evidence grading.
+- **Audit Tooling** - Standardized formats for regulatory-grade, de-identified audit exports.
+- **Test Fixtures** - A comprehensive library of clinical scenarios for unit testing.
+
+## Project Status: Public Alpha
+
+Regain Hermes™ is currently in **Public Alpha**. The core protocol schemas and validation logic are stable for early adoption, but the broader commercial ecosystem (Certification and Managed Services) is currently under development.
 
 ## Installation
 
 ```bash
 # npm
 npm install @regain/hermes
-
-# yarn
-yarn add @regain/hermes
-
-# pnpm
-pnpm add @regain/hermes
-
-# bun
-bun add @regain/hermes
 ```
+
+## Certification (Roadmap 2026)
+
+To ensure future ecosystem trust, we are developing a [Certification Program](./CERTIFICATION.md) with three proposed tiers:
+- **Hermes Compatible** (Free) - Automated conformance.
+- **Hermes Certified** (Paid) - Technical review & support.
+- **Hermes Certified Clinical** (Paid) - Full clinical audit & regulatory readiness.
+
+*If you are interested in becoming a launch partner for the certification program, please contact **team@regain.ai**.*
+
+## Enterprise & Managed Services (Coming Soon)
+
+For organizations that prefer a fully managed solution, Regain, Inc. is developing hosted supervision infrastructure:
+
+- **Regain Popper™ Cloud** - Managed policy engine with deterministic safety gates and audit logging.
+- **Enterprise Support** - SLA-backed support for mission-critical clinical deployments.
+- **Regulatory Packages** - Pre-configured compliance documentation for FDA, HIPAA, and IMDRF.
+
+*These services are currently in development. Contact **team@regain.ai** to join the early access waitlist.*
+
+## Documentation
+
+- [Project Vision](./VISION.md) - Our strategy for safe clinical AI.
+- [Certification Program](./CERTIFICATION.md) - How to certify your implementation.
+- [Governance Model](./GOVERNANCE.md) - How the standard is maintained.
+- [Contributing](./CONTRIBUTING.md) - Technical guidelines and our CLA.
+- [Trademark Policy](./TRADEMARK.md) - Usage guidelines for our marks.
 
 ## Quick Start
 
@@ -38,170 +69,47 @@ import {
   validateHermesMessage,
   parseHermesMessage,
   type SupervisionRequest,
-  type SupervisionResponse,
-  CURRENT_HERMES_VERSION,
 } from '@regain/hermes';
 
-// Validate a message
-const result = validateHermesMessage(unknownMessage);
+// Validate a message from a reasoning agent
+const result = validateHermesMessage(payload);
+
 if (result.valid) {
-  console.log('Valid Hermes message');
+  const request = parseHermesMessage(payload) as SupervisionRequest;
+  console.log(`Processing trace: ${request.trace.trace_id}`);
 } else {
-  console.error('Validation errors:', result.errors);
+  console.error('Protocol violation:', result.errors);
 }
-
-// Parse with type safety (throws on invalid)
-const message = parseHermesMessage(unknownMessage);
-```
-
-## Features
-
-### Message Types
-
-```typescript
-import type {
-  SupervisionRequest,    // Deutsch -> Popper request
-  SupervisionResponse,   // Popper -> Deutsch response
-  ClinicianFeedbackEvent, // Clinician override feedback
-  AuditEvent,            // Audit trail events
-  BiasDetectionEvent,    // Bias monitoring events
-  HermesError,           // Error responses
-} from '@regain/hermes';
-```
-
-### Schema Validation
-
-```typescript
-import {
-  validateHermesMessage,
-  parseHermesMessage,
-  isValidHermesMessage,
-  HermesValidationError,
-} from '@regain/hermes';
-
-// Type guard
-if (isValidHermesMessage(data)) {
-  // data is now typed as HermesMessage
-}
-
-// Parse with error handling
-try {
-  const msg = parseHermesMessage(data);
-} catch (e) {
-  if (e instanceof HermesValidationError) {
-    console.log(e.errors); // Detailed validation errors
-  }
-}
-```
-
-### Submodule Imports
-
-```typescript
-// Schema validation only
-import { validateHermesMessage } from '@regain/hermes/schema';
-
-// Test fixtures only
-import {
-  minimalSupervisionRequest,
-  approvedSupervisionResponse,
-  goodHTVScore,
-} from '@regain/hermes/fixtures';
-```
-
-### Epistemology Utilities
-
-```typescript
-import {
-  computeHTVScore,
-  getHTVQualityLevel,
-  compareEvidenceGrades,
-  computeUncertainty,
-} from '@regain/hermes';
-
-// Compute Hard-to-Vary score
-const htv = computeHTVScore({
-  interdependence: 0.9,
-  specificity: 0.85,
-  parsimony: 0.8,
-  falsifiability: 0.9,
-});
-
-console.log(htv.composite);        // 0.8625
-console.log(getHTVQualityLevel(htv.composite)); // 'good'
 ```
 
 ## API Reference
 
-### Validation
+### Epistemology Utilities
 
 | Function | Description |
 |----------|-------------|
-| `validateHermesMessage(msg)` | Validate message, returns `{ valid, errors? }` |
-| `parseHermesMessage(msg)` | Validate and return typed message, throws on error |
-| `isValidHermesMessage(msg)` | Type guard for valid messages |
+| `computeHTVScore(dims)` | Calculate Hard2Vary™ (HTV) composite score for an explanation. |
+| `getHTVQualityLevel(score)` | Get a human-readable quality level (e.g., 'excellent') from a score. |
+| `compareEvidenceGrades(a, b)` | Compare the strength of two evidence citations. |
+| `computeUncertainty(inputs)` | Calculate calibrated uncertainty for a proposed action. |
 
-### Constants
-
-| Constant | Description |
-|----------|-------------|
-| `CURRENT_HERMES_VERSION` | Current protocol version (`1.6.0`) |
-| `SUPERVISION_DECISIONS` | All valid decision values |
-| `REASON_CODES` | All valid reason codes |
-| `EVIDENCE_GRADES` | Evidence quality hierarchy |
-
-### Epistemology
-
-| Function | Description |
-|----------|-------------|
-| `computeHTVScore(dims)` | Calculate HTV composite score |
-| `getHTVQualityLevel(score)` | Get quality level from score |
-| `compareEvidenceGrades(a, b)` | Compare evidence strength |
-| `computeUncertainty(inputs)` | Calculate calibrated uncertainty |
-
-## Test Fixtures
-
-The package includes comprehensive fixtures for testing:
-
-```typescript
-import {
-  // SupervisionRequest variants
-  minimalSupervisionRequest,
-  fullSupervisionRequest,
-  medicationSupervisionRequest,
-
-  // SupervisionResponse variants
-  approvedSupervisionResponse,
-  routeSupervisionResponse,
-  hardStopSupervisionResponse,
-
-  // HTV Scores
-  excellentHTVScore,
-  goodHTVScore,
-  poorHTVScore,
-
-  // And more...
-} from '@regain/hermes/fixtures';
-```
-
-## Requirements
-
-- Node.js >= 18.0.0
-- TypeScript >= 5.0.0 (optional, for type checking)
-
-## Protocol Version
-
-This package implements **Hermes v1.6.0**.
-
-## License
-
-MIT - see [LICENSE](./LICENSE) for details.
+---
 
 ## Contributing
 
-Contributions are welcome! Please read our contributing guidelines and submit PRs to the `main` branch.
+Contributions are welcome! Please read our [contributing guidelines](./CONTRIBUTING.md) and [governance model](./GOVERNANCE.md) before submitting pull requests.
+
+## Trademarks
+
+"Regain Hermes™", "Regain Popper™", "Popper™", "Regain Deutsch™", and "Hard2Vary™" are trademarks of Regain, Inc. See our [Trademark Policy](./TRADEMARK.md) for usage guidelines.
 
 ## Links
 
 - [GitHub Repository](https://github.com/regain-inc/hermes)
 - [npm Package](https://www.npmjs.com/package/@regain/hermes)
 - [Issue Tracker](https://github.com/regain-inc/hermes/issues)
+- [Code of Conduct](./CODE_OF_CONDUCT.md)
+
+---
+
+*Regain Hermes™, Regain Deutsch™, Regain Popper™, Popper™, and Hard2Vary™ are trademarks of Regain, Inc. All rights reserved.*

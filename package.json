@@ -71,8 +71,8 @@
     "medical",
     "regain"
   ],
-  "author": "Regain Inc. <engineering@regain.health>",
-  "license": "MIT",
+  "author": "Regain, Inc. <team@regain.ai>",
+  "license": "Apache-2.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/regain-inc/hermes.git"

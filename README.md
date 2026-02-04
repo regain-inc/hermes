@@ -56,6 +56,16 @@ For organizations that prefer a fully managed solution, Regain, Inc. is developi
 
 ## Documentation
 
+### For Developers
+
+- **[Developer Guide](./docs/DEVELOPER-GUIDE.md)** - Step-by-step integration guide with workflows
+- **[API Reference](./docs/API-REFERENCE.md)** - Complete function and type documentation
+- **[Epistemology Guide](./docs/EPISTEMOLOGY-GUIDE.md)** - HTV scoring and uncertainty deep dive
+- **[Testing Guide](./docs/TESTING.md)** - How to test your integration
+- [Protocol Specification](./docs/00-hermes-specs/02-hermes-contracts.md) - Full schema spec
+
+### Project Governance
+
 - [Project Vision](./VISION.md) - Our strategy for safe clinical AI.
 - [Certification Program](./CERTIFICATION.md) - How to certify your implementation.
 - [Governance Model](./GOVERNANCE.md) - How the standard is maintained.
@@ -64,34 +74,81 @@ For organizations that prefer a fully managed solution, Regain, Inc. is developi
 
 ## Quick Start
 
+### Validate Messages
+
 ```typescript
-import {
-  validateHermesMessage,
-  parseHermesMessage,
-  type SupervisionRequest,
-} from '@regain/hermes';
+import { validateHermesMessage, parseHermesMessage } from '@regain/hermes';
 
-// Validate a message from a reasoning agent
+// Option 1: Check validity without throwing
 const result = validateHermesMessage(payload);
+if (!result.valid) {
+  console.error('Validation errors:', result.errors);
+}
 
-if (result.valid) {
-  const request = parseHermesMessage(payload) as SupervisionRequest;
-  console.log(`Processing trace: ${request.trace.trace_id}`);
-} else {
-  console.error('Protocol violation:', result.errors);
+// Option 2: Parse with type safety (throws on failure)
+const request = parseHermesMessage(payload);
+console.log(`Trace: ${request.trace.trace_id}`);
+```
+
+### Compute Epistemic Scores
+
+```typescript
+import { computeHTVScore, getHTVQualityLevel } from '@regain/hermes';
+
+const score = computeHTVScore({
+  interdependence: 0.9,
+  specificity: 0.85,
+  parsimony: 0.8,
+  falsifiability: 0.9,
+});
+
+console.log(score.composite);  // 0.8625
+console.log(getHTVQualityLevel(score.composite));  // 'good'
+```
+
+### Type Guard Pattern
+
+```typescript
+import { isValidHermesMessage, type SupervisionRequest } from '@regain/hermes';
+
+if (isValidHermesMessage(payload)) {
+  // TypeScript knows payload is HermesMessage
+  if (payload.message_type === 'supervision_request') {
+    handleRequest(payload as SupervisionRequest);
+  }
 }
 ```
 
-## API Reference
+## API Summary
+
+### Validation
+
+| Function | Description |
+|----------|-------------|
+| `validateHermesMessage(msg)` | Validate against JSON Schema, returns `{ valid, errors }` |
+| `parseHermesMessage(msg)` | Validate and parse, throws `HermesValidationError` on failure |
+| `isValidHermesMessage(msg)` | Type guard for Hermes messages |
 
 ### Epistemology Utilities
 
 | Function | Description |
 |----------|-------------|
-| `computeHTVScore(dims)` | Calculate Hard2Vary™ (HTV) composite score for an explanation. |
-| `getHTVQualityLevel(score)` | Get a human-readable quality level (e.g., 'excellent') from a score. |
-| `compareEvidenceGrades(a, b)` | Compare the strength of two evidence citations. |
-| `computeUncertainty(inputs)` | Calculate calibrated uncertainty for a proposed action. |
+| `computeHTVScore(dims, weights?)` | Calculate Hard2Vary™ composite score (0.0-1.0) |
+| `meetsHTVThreshold(score, threshold?)` | Check if score meets minimum threshold |
+| `getHTVQualityLevel(score)` | Get quality level: 'excellent', 'good', 'moderate', 'poor', 'refuted' |
+| `computeUncertainty(inputs)` | Calculate calibrated uncertainty with drivers |
+| `isUncertaintyAcceptable(unc, maxLevel?)` | Check if uncertainty is acceptable |
+| `compareEvidenceGrades(a, b)` | Compare evidence strength (negative if a stronger) |
+
+### Builders
+
+| Function | Description |
+|----------|-------------|
+| `htvScore()` | Fluent builder for HTV scores |
+| `createFalsificationCriteria(...)` | Create falsification criteria for claims |
+| `createUniformHTVScore(value)` | Create HTV with all dimensions equal |
+
+See **[API Reference](./docs/API-REFERENCE.md)** for complete documentation including constants, types, and examples.
 
 ---
 

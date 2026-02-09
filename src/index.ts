@@ -70,6 +70,12 @@ export type {
   UncertaintyCalibration,
   RefutationAction,
   FalsificationCriteria,
+  // SAL-508: Auto-Refutation types
+  ExpectedDirection,
+  ObservedTrend,
+  PredictionFailureReason,
+  FailedPrediction,
+  RefutationTrigger,
 } from './types/epistemology';
 
 export {

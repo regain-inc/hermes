@@ -370,3 +370,82 @@ export const REFUTATION_ACTIONS: readonly RefutationAction[] = [
   'modify_recommendation',
   'log_only',
 ] as const;
+
+// =============================================================================
+// Section 6: Auto-Refutation Types (SAL-508)
+// =============================================================================
+
+/**
+ * Direction of expected metric change.
+ */
+export type ExpectedDirection = 'improve' | 'decline' | 'stabilize';
+
+/**
+ * Observed trend from outcome tracking.
+ */
+export type ObservedTrend = 'improved' | 'no_change' | 'worsened' | 'insufficient_data';
+
+/**
+ * Reason a prediction was considered failed.
+ */
+export type PredictionFailureReason =
+  | 'opposite_direction' // Expected improve, got worsened
+  | 'no_change_after_window' // Expected improve, got no_change after full timeframe
+  | 'insufficient_data'; // No data available after timeframe + grace period
+
+/**
+ * Represents a prediction that failed — the observed outcome contradicted
+ * the expected direction within the specified timeframe.
+ *
+ * This is a core Popperian concept: when a theory's predictions fail,
+ * the theory must be revised or abandoned.
+ *
+ * @see 00-overall-specs/0A-epistemology/03-conjecture-and-refutation.md
+ */
+export interface FailedPrediction {
+  /** ID of the predicted outcome record */
+  readonly prediction_id: string;
+
+  /** ID of the original proposal that made this prediction */
+  readonly proposal_id: string;
+
+  /** The metric being tracked (e.g., "blood_pressure_systolic") */
+  readonly predicted_metric: string;
+
+  /** Expected direction of change */
+  readonly predicted_direction: ExpectedDirection;
+
+  /** Timeframe in days for the prediction */
+  readonly timeframe_days: number;
+
+  /** What actually happened */
+  readonly actual_trend: ObservedTrend;
+
+  /** Why this counts as a failure */
+  readonly failure_reason: PredictionFailureReason;
+}
+
+/**
+ * Trigger sent to Deutsch when a prediction fails, prompting re-conjecture.
+ *
+ * The engine should:
+ * 1. Explain why the original hypothesis failed
+ * 2. Generate revised hypotheses that account for the failure
+ * 3. Score new hypotheses with HTV (the failure data is new evidence)
+ */
+export interface RefutationTrigger {
+  /** Unique ID for this trigger event */
+  readonly trigger_id: string;
+
+  /** Session in which the original hypothesis was proposed */
+  readonly original_session_id: string;
+
+  /** The failed prediction details */
+  readonly failed_prediction: FailedPrediction;
+
+  /** ID of the hypothesis that was refuted */
+  readonly original_hypothesis_id: string;
+
+  /** When this trigger was created (ISO 8601) */
+  readonly triggered_at: string;
+}

@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://regain.health/schemas/hermes-message.schema.json",
-  "title": "Hermes v1.6.0 — Message + Shared Types Schema",
+  "title": "Hermes v2.0.0 — Message + Shared Types Schema",
   "description": "Machine-readable schema for Hermes messages and shared types including imaging data, clinician feedback, and bias detection. This is a spec artifact (not runtime code).",
   "type": "object",
   "oneOf": [
@@ -11,7 +11,9 @@
     { "$ref": "#/$defs/HermesError" },
     { "$ref": "#/$defs/CrossDomainConflict" },
     { "$ref": "#/$defs/ClinicianFeedbackEvent" },
-    { "$ref": "#/$defs/BiasDetectionEvent" }
+    { "$ref": "#/$defs/BiasDetectionEvent" },
+    { "$ref": "#/$defs/ControlCommandV2" },
+    { "$ref": "#/$defs/ControlCommandResponse" }
   ],
   "$defs": {
     "HermesVersion": {
@@ -1181,6 +1183,222 @@
         },
         "message": { "type": "string", "minLength": 1 },
         "details": { "type": "object" }
+      }
+    },
+    "ControlCommandV2Kind": {
+      "type": "string",
+      "enum": [
+        "SET_SAFE_MODE",
+        "SET_OPERATIONAL_SETTINGS",
+        "GET_OPERATIONAL_STATE",
+        "SET_OPERATIONAL_MODE"
+      ]
+    },
+    "CommandPriority": {
+      "type": "string",
+      "enum": ["ROUTINE", "URGENT", "EMERGENCY"]
+    },
+    "OperationalMode": {
+      "type": "string",
+      "enum": ["NORMAL", "RESTRICTED", "SAFE_MODE", "MAINTENANCE"]
+    },
+    "SettingValue": {
+      "oneOf": [
+        { "type": "boolean" },
+        { "type": "string" },
+        { "type": "number" },
+        { "type": "array", "items": { "type": "string" } }
+      ]
+    },
+    "OperationalSettingChange": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["key", "value"],
+      "properties": {
+        "key": { "type": "string", "minLength": 1 },
+        "value": { "$ref": "#/$defs/SettingValue" },
+        "previous_value": { "$ref": "#/$defs/SettingValue" },
+        "effective_until": { "$ref": "#/$defs/IsoDateTime" },
+        "reason": { "type": "string" }
+      }
+    },
+    "ControlCommandV2": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "hermes_version",
+        "message_type",
+        "command_id",
+        "created_at",
+        "source",
+        "target",
+        "kind",
+        "priority",
+        "idempotency_key",
+        "audit_redaction"
+      ],
+      "properties": {
+        "hermes_version": { "$ref": "#/$defs/HermesVersion" },
+        "message_type": { "const": "control_command_v2" },
+        "command_id": { "type": "string", "minLength": 1 },
+        "command_batch_id": { "type": "string", "minLength": 1 },
+        "created_at": { "$ref": "#/$defs/IsoDateTime" },
+        "source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["system", "service_version"],
+          "properties": {
+            "system": { "type": "string", "minLength": 1 },
+            "service_version": { "type": "string", "minLength": 1 },
+            "operator_id": { "type": "string", "minLength": 1 }
+          }
+        },
+        "target": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["system"],
+          "properties": {
+            "system": { "type": "string", "minLength": 1 },
+            "organization_id": { "type": "string", "minLength": 1 },
+            "instance_id": { "type": "string", "minLength": 1 }
+          }
+        },
+        "kind": { "$ref": "#/$defs/ControlCommandV2Kind" },
+        "priority": { "$ref": "#/$defs/CommandPriority" },
+        "safe_mode": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["enabled", "reason"],
+          "properties": {
+            "enabled": { "type": "boolean" },
+            "reason": { "type": "string", "minLength": 1 },
+            "effective_at": { "$ref": "#/$defs/IsoDateTime" },
+            "effective_until": { "$ref": "#/$defs/IsoDateTime" }
+          }
+        },
+        "settings": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/OperationalSettingChange" }
+        },
+        "mode_transition": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["target_mode", "reason"],
+          "properties": {
+            "target_mode": { "$ref": "#/$defs/OperationalMode" },
+            "reason": { "type": "string", "minLength": 1 },
+            "effective_at": { "$ref": "#/$defs/IsoDateTime" }
+          }
+        },
+        "idempotency_key": { "type": "string", "minLength": 1 },
+        "audit_redaction": { "$ref": "#/$defs/AuditRedactionBase" }
+      }
+    },
+    "ControlCommandStatus": {
+      "type": "string",
+      "enum": ["APPLIED", "REJECTED", "DEFERRED"]
+    },
+    "OperationalStateSnapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "snapshot_id",
+        "created_at",
+        "safe_mode",
+        "operational_mode",
+        "settings",
+        "catalog_version",
+        "supported_keys"
+      ],
+      "properties": {
+        "snapshot_id": { "type": "string", "minLength": 1 },
+        "created_at": { "$ref": "#/$defs/IsoDateTime" },
+        "safe_mode": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["enabled"],
+          "properties": {
+            "enabled": { "type": "boolean" },
+            "reason": { "type": "string" },
+            "effective_at": { "$ref": "#/$defs/IsoDateTime" },
+            "effective_until": { "$ref": "#/$defs/IsoDateTime" }
+          }
+        },
+        "operational_mode": { "$ref": "#/$defs/OperationalMode" },
+        "settings": { "type": "object" },
+        "catalog_version": { "type": "string", "minLength": 1 },
+        "supported_keys": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "extensions": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "SettingApplicationResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["key", "status"],
+      "properties": {
+        "key": { "type": "string", "minLength": 1 },
+        "status": { "type": "string", "enum": ["APPLIED", "REJECTED"] },
+        "reason": { "type": "string" },
+        "applied_value": {},
+        "previous_value": {}
+      }
+    },
+    "DeferredInfo": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["estimated_apply_at"],
+      "properties": {
+        "estimated_apply_at": { "$ref": "#/$defs/IsoDateTime" },
+        "retry_after_ms": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "ControlCommandResponse": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "hermes_version",
+        "message_type",
+        "command_id",
+        "response_id",
+        "received_at",
+        "responded_at",
+        "source",
+        "status",
+        "audit_redaction"
+      ],
+      "properties": {
+        "hermes_version": { "$ref": "#/$defs/HermesVersion" },
+        "message_type": { "const": "control_command_response" },
+        "command_id": { "type": "string", "minLength": 1 },
+        "command_batch_id": { "type": "string", "minLength": 1 },
+        "response_id": { "type": "string", "minLength": 1 },
+        "received_at": { "$ref": "#/$defs/IsoDateTime" },
+        "responded_at": { "$ref": "#/$defs/IsoDateTime" },
+        "source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["system", "service_version"],
+          "properties": {
+            "system": { "type": "string", "minLength": 1 },
+            "service_version": { "type": "string", "minLength": 1 },
+            "instance_id": { "type": "string", "minLength": 1 }
+          }
+        },
+        "status": { "$ref": "#/$defs/ControlCommandStatus" },
+        "reason": { "type": "string" },
+        "setting_results": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/SettingApplicationResult" }
+        },
+        "settings_snapshot": { "$ref": "#/$defs/OperationalStateSnapshot" },
+        "deferred": { "$ref": "#/$defs/DeferredInfo" },
+        "audit_redaction": { "$ref": "#/$defs/AuditRedactionBase" }
       }
     }
   }

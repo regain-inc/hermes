@@ -70,3 +70,11 @@ export {
   weakFalsifiabilityHTVScore,
   weakSpecificityHTVScore,
 } from './htv-score';
+
+// Control v2 conformance fixtures
+export { coreSettingsFixture, coreSettingsCommand } from './control-v2-core-settings.fixture';
+export { emergencyModeFixture, emergencyModeCommand } from './control-v2-emergency-mode.fixture';
+export {
+  atomicRejectionFixture,
+  atomicRejectionCommand,
+} from './control-v2-atomic-rejection.fixture';

@@ -20,6 +20,10 @@ export * from './control';
 export * from './composition';
 export * from './supervision';
 
+// Phase 5: Control v2
+export * from './control-v2';
+export * from './operational-settings-catalog';
+
 // Phase 4: Clinical, Imaging & Bias Detection
 export * from './bias';
 export * from './audit';

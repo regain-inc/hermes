@@ -151,3 +151,78 @@ export {
   htvScore,
 } from './builders/epistemology';
 export type { FalsificationCriteriaOptions } from './builders/epistemology';
+
+// =============================================================================
+// Control v2 Types
+// =============================================================================
+
+export type {
+  ControlCommandV2Kind,
+  CommandPriority,
+  OperationalMode,
+  SettingValue,
+  ControlCommandSource,
+  ControlCommandTarget,
+  OperationalSettingChange,
+  SafeModeConfigV2,
+  ModeTransition,
+  ControlCommandV2,
+  ControlCommandStatus,
+  SettingApplicationResult,
+  OperationalStateSnapshot,
+  DeferredInfo,
+  ControlResponseSource,
+  ControlCommandResponse,
+} from './types/control-v2';
+
+export {
+  CONTROL_COMMAND_V2_KINDS,
+  COMMAND_PRIORITIES,
+  OPERATIONAL_MODES,
+  CONTROL_COMMAND_STATUSES,
+} from './types/control-v2';
+
+// =============================================================================
+// Operational Settings Catalog
+// =============================================================================
+
+export type {
+  SettingAffectsPoint,
+  SettingType,
+  OperationalSettingDefinition,
+} from './types/operational-settings-catalog';
+
+export {
+  SETTING_AFFECTS_POINTS,
+  SETTING_TYPES,
+  OPERATIONAL_SETTINGS_CATALOG,
+  SETTINGS_CATALOG_VERSION,
+  getSettingDefinition,
+  getCoreSettings,
+  getExtensionSettings,
+  getTA1ControlSettings,
+  getAllSettingKeys,
+  getDefaultSettings,
+  getSafeModeLockValues,
+  validateSettingValue,
+} from './types/operational-settings-catalog';
+
+// =============================================================================
+// Control v2 Builders
+// =============================================================================
+
+export { createControlCommandV2 } from './builders/control-command-v2';
+export type { ControlCommandV2Options } from './builders/control-command-v2';
+export { createControlCommandResponse } from './builders/control-command-response';
+export type { ControlCommandResponseOptions } from './builders/control-command-response';
+
+// =============================================================================
+// Migration Helpers
+// =============================================================================
+
+export {
+  mapV1ToV2,
+  mapV2SettingToV1,
+  V1_TO_V2_KEY_MAP,
+  V1_REMOVED_KEYS,
+} from './utils/control-migration';

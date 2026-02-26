@@ -743,6 +743,18 @@
           "items": { "$ref": "#/$defs/UnresolvedOverrideConflict" }
         },
         "feedback_metrics": { "$ref": "#/$defs/FeedbackMetrics" },
+        "hallucination_detection": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "detected": { "type": "boolean" },
+            "severity": {
+              "type": "string",
+              "enum": ["minor", "significant", "critical"]
+            },
+            "description": { "type": "string" }
+          }
+        },
         "audit_redaction": {
           "type": "object",
           "additionalProperties": true,

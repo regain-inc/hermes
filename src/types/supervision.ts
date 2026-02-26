@@ -69,6 +69,25 @@ export interface InputRisk {
 }
 
 // =============================================================================
+// Section 3.4: Hallucination Detection (upstream flag from Deutsch)
+// =============================================================================
+
+/**
+ * Upstream hallucination detection flag from Deutsch.
+ * When Deutsch's output validation or semantic mismatch checks detect
+ * potential fabrication, this field is set so Popper's policy engine
+ * can trigger appropriate safety rules.
+ */
+export interface HallucinationDetection {
+  /** Whether hallucination was detected */
+  readonly detected?: boolean;
+  /** Severity level of the detected hallucination */
+  readonly severity?: 'minor' | 'significant' | 'critical';
+  /** Brief description of what was detected (MUST NOT include PHI) */
+  readonly description?: string;
+}
+
+// =============================================================================
 // Section 3.4: Prior Override (for SupervisionRequest)
 // =============================================================================
 
@@ -230,6 +249,9 @@ export interface SupervisionRequest {
 
   /** Alert fatigue indicators */
   readonly feedback_metrics?: FeedbackMetrics;
+
+  /** Upstream hallucination detection from Deutsch's output validation */
+  readonly hallucination_detection?: HallucinationDetection;
 
   /** Redacted form safe for general logs */
   readonly audit_redaction: SupervisionRequestAuditRedaction;

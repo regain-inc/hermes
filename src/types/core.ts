@@ -42,7 +42,7 @@ export type HermesVersion = `${number}.${number}.${number}`;
 /**
  * Current Hermes protocol version.
  */
-export const CURRENT_HERMES_VERSION: HermesVersion = '2.2.0';
+export const CURRENT_HERMES_VERSION: HermesVersion = '2.3.0';
 
 /**
  * ISO 8601 datetime string with timezone.

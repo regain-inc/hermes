@@ -38,3 +38,6 @@ export * from './messages';
 
 // Phase 8: Accreditation Compliance Types
 export * from './compliance';
+
+// Phase 9: Governance Types (v2.3.0)
+export * from './governance';

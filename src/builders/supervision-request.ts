@@ -3,6 +3,7 @@
  * @module builders/supervision-request
  */
 
+import type { ClinicalSnapshotPayload } from '../types/clinical-snapshot';
 import type {
   CompositionMetadata,
   ContributingDomain,
@@ -15,6 +16,7 @@ import type { HealthStateSnapshotRef } from '../types/snapshot';
 import type {
   FeedbackMetrics,
   InputRisk,
+  OutputValidationResult,
   PriorOverride,
   SupervisionRequest,
   SupervisionRequestAuditRedaction,
@@ -40,8 +42,8 @@ export interface SupervisionRequestOptions {
 
   // Optional fields
 
-  /** Inline snapshot payload */
-  readonly snapshot_payload?: Record<string, unknown>;
+  /** Inline clinical snapshot payload (v2.1: typed as ClinicalSnapshotPayload) */
+  readonly snapshot_payload?: ClinicalSnapshotPayload;
 
   /** Idempotency key for replay protection */
   readonly idempotency_key?: string;
@@ -51,6 +53,9 @@ export interface SupervisionRequestOptions {
 
   /** Optional free-text notes */
   readonly notes?: string;
+
+  /** Deutsch-side output validation result (v2.1: replaces hallucination_detection) */
+  readonly output_validation?: OutputValidationResult;
 
   // Multi-domain composition fields
 
@@ -113,6 +118,7 @@ export function createSupervisionRequest(options: SupervisionRequestOptions): Su
     idempotency_key,
     input_risk,
     notes,
+    output_validation,
     cross_domain_conflicts,
     contributing_domains,
     composition_metadata,
@@ -160,7 +166,12 @@ export function createSupervisionRequest(options: SupervisionRequestOptions): Su
 
   // Add optional fields
   if (snapshot_payload !== undefined) {
-    (request as { snapshot_payload?: Record<string, unknown> }).snapshot_payload = snapshot_payload;
+    (request as unknown as { snapshot_payload?: ClinicalSnapshotPayload }).snapshot_payload =
+      snapshot_payload;
+  }
+  if (output_validation !== undefined) {
+    (request as unknown as { output_validation?: OutputValidationResult }).output_validation =
+      output_validation;
   }
   if (idempotency_key !== undefined) {
     (request as { idempotency_key?: string }).idempotency_key = idempotency_key;

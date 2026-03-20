@@ -40,6 +40,7 @@ export const minimalSupervisionRequest: SupervisionRequest = {
     created_at: isoDateTime('2026-01-25T09:55:00.000Z'),
     sources: ['ehr'],
   },
+  snapshot_payload: {},
   proposals: [
     {
       proposal_id: 'prop-001',
@@ -116,6 +117,17 @@ export const medicationSupervisionRequest: SupervisionRequest = {
     snapshot_id: 'snap-med-001',
     created_at: isoDateTime('2026-01-25T09:55:00.000Z'),
     sources: ['ehr', 'wearable'],
+  },
+  snapshot_payload: {
+    active_medications: [
+      {
+        name: 'lisinopril',
+        rxnorm_code: '197884',
+        atc_class: 'C09AA',
+        status: 'active',
+        dose: { value: 10, unit: 'mg', frequency: 'daily' },
+      },
+    ],
   },
   idempotency_key: 'idem-med-001',
   request_timestamp: isoDateTime('2026-01-25T10:00:00.000Z'),
@@ -203,6 +215,7 @@ export const triageSupervisionRequest: SupervisionRequest = {
     created_at: isoDateTime('2026-01-25T09:55:00.000Z'),
     sources: ['ehr', 'patient_reported'],
   },
+  snapshot_payload: {},
   proposals: [
     {
       proposal_id: 'prop-triage-001',

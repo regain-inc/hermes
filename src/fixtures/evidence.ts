@@ -28,7 +28,7 @@ export const systematicReviewEvidence: EvidenceRef = {
  */
 export const rctEvidence: EvidenceRef = {
   evidence_id: 'ev-rct-001',
-  evidence_type: 'study',
+  evidence_type: 'literature',
   citation: 'CONSENSUS Trial Investigators. NEJM 1987;316:1429-35',
   uri: 'https://doi.org/10.1056/NEJM198706043162301',
   excerpt: 'Enalapril reduced mortality by 40% in severe heart failure.',
@@ -44,7 +44,7 @@ export const rctEvidence: EvidenceRef = {
  */
 export const cohortEvidence: EvidenceRef = {
   evidence_id: 'ev-cohort-001',
-  evidence_type: 'study',
+  evidence_type: 'literature',
   citation: 'Framingham Heart Study, CVD Risk Factors Analysis 2020',
   uri: 'https://framinghamheartstudy.org/publications/',
   evidence_grade: 'cohort',

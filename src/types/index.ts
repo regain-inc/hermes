@@ -24,6 +24,12 @@ export * from './supervision';
 export * from './control-v2';
 export * from './operational-settings-catalog';
 
+// Phase 6: Clinical Supervision Contract (v2.1)
+export * from './clinical-snapshot';
+
+// Phase 7: GDMT Alignment Contracts (v2.2)
+export * from './recommendation-telemetry';
+
 // Phase 4: Clinical, Imaging & Bias Detection
 export * from './bias';
 export * from './audit';

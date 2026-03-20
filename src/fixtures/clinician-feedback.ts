@@ -212,6 +212,7 @@ export const deferredFeedback: ClinicianFeedbackEvent = {
     sources: ['ehr'],
   },
   action: 'deferred',
+  deferral_reason: 'awaiting_data',
   occurred_at: isoDateTime('2026-01-25T10:05:00.000Z'),
   response_time_seconds: 300,
   clinician_ref: {

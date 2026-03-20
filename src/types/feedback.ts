@@ -27,7 +27,62 @@ export type ClinicianAction =
   | 'accepted' // Clinician approved Deutsch's proposal as-is
   | 'modified' // Clinician modified the proposal
   | 'rejected' // Clinician rejected the proposal
-  | 'deferred'; // Clinician deferred decision (needs more info)
+  | 'deferred'; // Clinician deferred decision — see DeferralReason for structured subtypes
+
+// =============================================================================
+// Section 4.2.1b: Deferral Reason Taxonomy (C5)
+// @since Hermes v2.2
+// @see 03-deutsch-cvd-cartridge-spec.md §13.2b
+// =============================================================================
+
+/**
+ * Structured reason for deferral, enabling three-bucket analytics:
+ * - Clinical delay (appropriate): awaiting_data, temporary_clinical_hold, not_clinically_appropriate_now
+ * - Operational barrier (needs access support): access_barrier, patient_preference_delay
+ * - Inertia-eligible (potential therapeutic inertia): address_next_visit, other
+ *
+ * @since Hermes v2.2
+ */
+export type DeferralReason =
+  | 'awaiting_data' // labs pending, workup incomplete
+  | 'temporary_clinical_hold' // post-op, acute illness, decompensation
+  | 'patient_preference_delay' // patient wants to discuss at next visit
+  | 'access_barrier' // cost, insurance, pharmacy issue
+  | 'address_next_visit' // timing — will address at scheduled follow-up
+  | 'not_clinically_appropriate_now' // legitimate clinical timing
+  | 'other'; // free-text reason
+
+/**
+ * All valid deferral reasons as a readonly array for runtime validation.
+ */
+export const DEFERRAL_REASONS: readonly DeferralReason[] = [
+  'awaiting_data',
+  'temporary_clinical_hold',
+  'patient_preference_delay',
+  'access_barrier',
+  'address_next_visit',
+  'not_clinically_appropriate_now',
+  'other',
+] as const;
+
+/**
+ * Deferral reason classification buckets for analytics.
+ */
+export const CLINICAL_DELAY_REASONS: readonly DeferralReason[] = [
+  'awaiting_data',
+  'temporary_clinical_hold',
+  'not_clinically_appropriate_now',
+] as const;
+
+export const OPERATIONAL_BARRIER_REASONS: readonly DeferralReason[] = [
+  'access_barrier',
+  'patient_preference_delay',
+] as const;
+
+export const INERTIA_ELIGIBLE_REASONS: readonly DeferralReason[] = [
+  'address_next_visit',
+  'other',
+] as const;
 
 /**
  * All valid clinician actions as a readonly array for runtime validation.
@@ -438,6 +493,12 @@ export interface ClinicianFeedbackEvent {
 
   /** Clinician's decision */
   readonly action: ClinicianAction;
+  /**
+   * Structured reason when action is 'deferred'.
+   * Required when action === 'deferred'. Ignored for other actions.
+   * @since Hermes v2.2
+   */
+  readonly deferral_reason?: DeferralReason;
   /** When clinician made decision */
   readonly occurred_at: IsoDateTime;
   /** Time from alert to decision (for alert fatigue analysis) */

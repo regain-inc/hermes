@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://regain.health/schemas/hermes-message.schema.json",
-  "title": "Hermes v2.0.0 — Message + Shared Types Schema",
-  "description": "Machine-readable schema for Hermes messages and shared types including imaging data, clinician feedback, and bias detection. This is a spec artifact (not runtime code).",
+  "$id": "https://regain.ai/schemas/hermes-message.schema.json",
+  "title": "Hermes v2.1.0 — Message + Shared Types Schema",
+  "description": "Machine-readable schema for Hermes messages and shared types including clinical supervision contract (v2.1), imaging data, clinician feedback, and bias detection. This is a spec artifact (not runtime code).",
   "type": "object",
   "oneOf": [
     { "$ref": "#/$defs/SupervisionRequest" },
@@ -76,6 +76,18 @@
       "type": "string",
       "enum": ["accepted", "modified", "rejected", "deferred"]
     },
+    "DeferralReason": {
+      "type": "string",
+      "enum": [
+        "awaiting_data",
+        "temporary_clinical_hold",
+        "patient_preference_delay",
+        "access_barrier",
+        "address_next_visit",
+        "not_clinically_appropriate_now",
+        "other"
+      ]
+    },
     "RationaleCategory": {
       "type": "string",
       "enum": [
@@ -115,6 +127,346 @@
         "BEHAVIORAL_INTERVENTION_PROPOSAL",
         "OTHER"
       ]
+    },
+    "StructuredDose": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["value", "unit"],
+      "properties": {
+        "value": { "type": "number" },
+        "unit": { "type": "string", "minLength": 1 },
+        "route": {
+          "type": "string",
+          "enum": ["oral", "iv", "sc", "im", "topical", "inhaled", "other"]
+        },
+        "frequency": { "type": "string", "minLength": 1 }
+      }
+    },
+    "ProposedIntervention": {
+      "type": "object",
+      "required": ["proposal_id", "kind", "created_at", "audit_redaction"],
+      "properties": {
+        "proposal_id": { "type": "string", "minLength": 1 },
+        "kind": { "$ref": "#/$defs/ProposedInterventionKind" },
+        "created_at": { "$ref": "#/$defs/IsoDateTime" },
+        "interdependency_group_id": { "type": "string", "minLength": 1 },
+        "deutsch_risk_estimate": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "level": { "type": "string", "enum": ["low", "medium", "high", "critical"] },
+            "notes": { "type": "string" }
+          }
+        },
+        "evidence_refs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["evidence_id", "evidence_type", "citation"],
+            "properties": {
+              "evidence_id": { "type": "string", "minLength": 1 },
+              "evidence_type": {
+                "type": "string",
+                "enum": [
+                  "guideline",
+                  "literature",
+                  "patient_data",
+                  "label",
+                  "policy",
+                  "calculation",
+                  "other"
+                ]
+              },
+              "citation": { "type": "string", "minLength": 1 },
+              "uri": { "type": "string" }
+            }
+          }
+        },
+        "claim_type": {
+          "type": "string",
+          "enum": [
+            "diagnosis",
+            "treatment_rec",
+            "prognosis",
+            "lifestyle_rec",
+            "diagnostic_prompt",
+            "escalation",
+            "observation",
+            "administrative"
+          ]
+        },
+        "htv_score": {
+          "type": "object",
+          "properties": {
+            "composite": { "type": "number", "minimum": 0, "maximum": 1 },
+            "interdependence": { "type": "number", "minimum": 0, "maximum": 1 },
+            "specificity": { "type": "number", "minimum": 0, "maximum": 1 },
+            "parsimony": { "type": "number", "minimum": 0, "maximum": 1 },
+            "falsifiability": { "type": "number", "minimum": 0, "maximum": 1 }
+          }
+        },
+        "uncertainty_calibration": { "type": "object" },
+        "falsification_criteria": { "type": "object" },
+        "audit_redaction": { "$ref": "#/$defs/AuditRedactionBase" },
+        "medication": {
+          "type": "object",
+          "required": ["name"],
+          "properties": {
+            "name": { "type": "string", "minLength": 1 },
+            "rxnorm_code": { "type": "string" },
+            "atc_class": { "type": "string", "pattern": "^[A-Z][0-9]{2}[A-Z]{2}$" }
+          }
+        },
+        "change": {
+          "type": "object",
+          "required": ["change_type"],
+          "properties": {
+            "change_type": { "type": "string", "enum": ["start", "stop", "titrate", "hold"] },
+            "from_dose": { "type": "string" },
+            "to_dose": { "type": "string" }
+          }
+        },
+        "structured_dose": {
+          "type": "object",
+          "properties": {
+            "from": { "$ref": "#/$defs/StructuredDose" },
+            "to": { "$ref": "#/$defs/StructuredDose" }
+          }
+        },
+        "clinician_protocol_ref": { "type": "string", "minLength": 1 },
+        "message_markdown": { "type": "string" },
+        "action": {
+          "type": "string",
+          "enum": ["schedule_appointment", "reschedule_appointment", "send_reminder", "other"]
+        },
+        "urgency": { "type": "string", "enum": ["routine", "soon", "urgent"] },
+        "route_to": {
+          "type": "string",
+          "enum": ["care_team", "cardiologist", "primary_care", "emergency"]
+        },
+        "reason": { "type": "string" },
+        "other_kind": { "type": "string" },
+        "payload": { "type": "object" },
+        "modification_type": { "type": "string" },
+        "recommendations": { "type": "array", "items": { "type": "string" } },
+        "goals": { "type": "array", "items": { "type": "string" } },
+        "restrictions": { "type": "array", "items": { "type": "string" } },
+        "nutrient_limits": { "type": "object" },
+        "intervention_type": { "type": "string" },
+        "techniques": { "type": "array", "items": { "type": "string" } },
+        "target_behaviors": { "type": "array", "items": { "type": "string" } },
+        "details": { "type": "object" }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "kind": { "const": "MEDICATION_ORDER_PROPOSAL" } } },
+          "then": { "required": ["medication", "change"] }
+        },
+        {
+          "if": { "properties": { "kind": { "const": "TRIAGE_ROUTE" } } },
+          "then": { "required": ["urgency", "route_to", "reason"] }
+        },
+        {
+          "if": { "properties": { "kind": { "const": "PATIENT_MESSAGE" } } },
+          "then": { "required": ["message_markdown"] }
+        },
+        {
+          "if": { "properties": { "kind": { "const": "OTHER" } } },
+          "then": { "required": ["other_kind"] }
+        },
+        {
+          "if": { "properties": { "kind": { "const": "CARE_NAVIGATION" } } },
+          "then": { "required": ["action"] }
+        },
+        {
+          "if": { "properties": { "kind": { "const": "LIFESTYLE_MODIFICATION_PROPOSAL" } } },
+          "then": { "required": ["modification_type", "recommendations"] }
+        },
+        {
+          "if": { "properties": { "kind": { "const": "NUTRITION_PLAN_PROPOSAL" } } },
+          "then": { "required": ["recommendations"] }
+        },
+        {
+          "if": { "properties": { "kind": { "const": "BEHAVIORAL_INTERVENTION_PROPOSAL" } } },
+          "then": { "required": ["intervention_type"] }
+        }
+      ]
+    },
+    "ClinicalSnapshotPayload": {
+      "description": "Clinical data for Popper rule evaluation. null = data unavailable; [] = confirmed empty. See 06-hermes-clinical-supervision-contract.md §1.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "active_medications": {
+          "oneOf": [
+            { "type": "null" },
+            {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["name", "status"],
+                "properties": {
+                  "name": { "type": "string", "minLength": 1 },
+                  "rxnorm_code": { "type": "string" },
+                  "atc_class": { "type": "string", "pattern": "^[A-Z][0-9]{2}[A-Z]{2}$" },
+                  "dose": { "$ref": "#/$defs/StructuredDose" },
+                  "status": { "type": "string", "enum": ["active", "on_hold", "discontinued"] },
+                  "started_at": { "$ref": "#/$defs/IsoDateTime" },
+                  "stopped_at": { "$ref": "#/$defs/IsoDateTime" },
+                  "last_dose_at": { "$ref": "#/$defs/IsoDateTime" }
+                }
+              }
+            }
+          ]
+        },
+        "hf_assessment": {
+          "oneOf": [
+            { "type": "null" },
+            {
+              "type": "object",
+              "required": ["phenotype", "lvef", "lvef_date"],
+              "additionalProperties": false,
+              "properties": {
+                "phenotype": { "type": "string", "enum": ["HFrEF", "HFmrEF", "HFpEF"] },
+                "lvef": { "type": "number", "minimum": 0, "maximum": 100 },
+                "lvef_date": { "$ref": "#/$defs/IsoDateTime" },
+                "nyha_class": { "type": "string", "enum": ["I", "II", "III", "IV"] }
+              }
+            }
+          ]
+        },
+        "acute_status": {
+          "oneOf": [
+            { "type": "null" },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "decompensated_hf": { "type": "boolean" },
+                "last_discharge_date": { "$ref": "#/$defs/IsoDateTime" },
+                "last_surgery_date": { "$ref": "#/$defs/IsoDateTime" },
+                "blanket_clinical_hold": { "type": "boolean" },
+                "last_medication_change_date": { "$ref": "#/$defs/IsoDateTime" }
+              }
+            }
+          ]
+        },
+        "access_context": {
+          "oneOf": [
+            { "type": "null" },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "insurance_status": {
+                  "type": "string",
+                  "enum": ["commercial", "medicare", "medicaid", "uninsured", "other"]
+                },
+                "copay_assistance_available": { "type": "boolean" },
+                "formulary_restrictions": { "type": "array", "items": { "type": "string" } },
+                "pharmacy_accessible": { "type": "boolean" },
+                "sdoh_flags": { "type": "array", "items": { "type": "string" } }
+              }
+            }
+          ]
+        },
+        "recent_labs": {
+          "oneOf": [
+            { "type": "null" },
+            {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["lab_id", "value", "unit", "collected_at"],
+                "properties": {
+                  "lab_id": { "type": "string", "minLength": 1 },
+                  "loinc_code": { "type": "string" },
+                  "value": { "type": "number" },
+                  "unit": { "type": "string", "minLength": 1 },
+                  "collected_at": { "$ref": "#/$defs/IsoDateTime" },
+                  "flag": {
+                    "type": "string",
+                    "enum": ["normal", "low", "high", "critical_low", "critical_high"]
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "active_conditions": {
+          "oneOf": [
+            { "type": "null" },
+            {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["condition_id", "status"],
+                "properties": {
+                  "condition_id": { "type": "string", "minLength": 1 },
+                  "snomed_code": { "type": "string" },
+                  "icd10_code": { "type": "string" },
+                  "onset_date": { "$ref": "#/$defs/IsoDateTime" },
+                  "status": { "type": "string", "enum": ["active", "resolved", "inactive"] }
+                }
+              }
+            }
+          ]
+        },
+        "recent_vitals": {
+          "oneOf": [
+            { "type": "null" },
+            {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["type", "value", "unit", "recorded_at"],
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "systolic_bp",
+                      "diastolic_bp",
+                      "heart_rate",
+                      "weight_kg",
+                      "bmi",
+                      "spo2",
+                      "other"
+                    ]
+                  },
+                  "value": { "type": "number" },
+                  "unit": { "type": "string", "minLength": 1 },
+                  "recorded_at": { "$ref": "#/$defs/IsoDateTime" }
+                }
+              }
+            }
+          ]
+        },
+        "medication_allergies": {
+          "oneOf": [
+            { "type": "null" },
+            {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["substance", "reaction_type"],
+                "properties": {
+                  "substance": { "type": "string", "minLength": 1 },
+                  "atc_class": { "type": "string", "pattern": "^[A-Z][0-9]{2}[A-Z]{2}$" },
+                  "reaction_type": {
+                    "type": "string",
+                    "enum": ["allergy", "intolerance", "adverse_reaction"]
+                  },
+                  "severity": {
+                    "type": "string",
+                    "enum": ["mild", "moderate", "severe", "life_threatening"]
+                  },
+                  "reaction": { "type": "string" }
+                }
+              }
+            }
+          ]
+        }
+      }
     },
     "ClinicianOverrideHistory": {
       "type": "object",
@@ -705,7 +1057,7 @@
         "mode": { "$ref": "#/$defs/Mode" },
         "subject": { "$ref": "#/$defs/SubjectRef" },
         "snapshot": { "$ref": "#/$defs/HealthStateSnapshotRef" },
-        "snapshot_payload": { "type": "object" },
+        "snapshot_payload": { "$ref": "#/$defs/ClinicalSnapshotPayload" },
         "idempotency_key": { "type": "string", "minLength": 1 },
         "request_timestamp": { "$ref": "#/$defs/IsoDateTime" },
         "input_risk": {
@@ -723,7 +1075,34 @@
             "notes": { "type": "string" }
           }
         },
-        "proposals": { "type": "array", "minItems": 1, "items": { "type": "object" } },
+        "proposals": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/ProposedIntervention" }
+        },
+        "output_validation": {
+          "description": "Deutsch-side output validation result. When validation found issues (hallucination signals, semantic mismatches), this field carries the severity and signal descriptions so Popper can evaluate them deterministically.",
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["valid"],
+          "properties": {
+            "valid": { "type": "boolean" },
+            "severity": { "type": "string", "enum": ["minor", "significant", "critical"] },
+            "signals": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["type", "severity", "description"],
+                "properties": {
+                  "type": { "type": "string" },
+                  "severity": { "type": "string", "enum": ["minor", "significant", "critical"] },
+                  "description": { "type": "string" },
+                  "proposal_id": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
         "notes": { "type": "string" },
         "cross_domain_conflicts": {
           "type": "array",
@@ -770,6 +1149,12 @@
             "override_rate_bucket": { "type": "string" }
           }
         }
+      },
+      "if": {
+        "properties": { "mode": { "const": "advocate_clinical" } }
+      },
+      "then": {
+        "required": ["snapshot_payload"]
       }
     },
     "SupervisionResponse": {
@@ -891,6 +1276,7 @@
         "original_proposal_id": { "type": "string", "minLength": 1 },
         "snapshot_ref": { "$ref": "#/$defs/HealthStateSnapshotRef" },
         "action": { "$ref": "#/$defs/ClinicianAction" },
+        "deferral_reason": { "$ref": "#/$defs/DeferralReason" },
         "occurred_at": { "$ref": "#/$defs/IsoDateTime" },
         "response_time_seconds": { "type": "number", "minimum": 0 },
         "clinician_ref": {

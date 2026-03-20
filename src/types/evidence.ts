@@ -13,11 +13,12 @@ import type { EvidenceGrade } from './epistemology';
  * Type of evidence supporting a claim or recommendation.
  */
 export type EvidenceType =
-  | 'guideline'
-  | 'study'
-  | 'patient_data'
-  | 'calculation'
-  | 'policy'
+  | 'guideline' // Society guideline (AHA/ACC, ADA, KDIGO, etc.)
+  | 'literature' // Published study, RCT, meta-analysis, systematic review
+  | 'patient_data' // Patient-specific data provenance
+  | 'label' // FDA medication label (SPL), contraindications, warnings (v2.1)
+  | 'policy' // Institutional protocol, P&T committee decision
+  | 'calculation' // Computed/derived value (e.g., risk score)
   | 'other';
 
 /**
@@ -25,12 +26,18 @@ export type EvidenceType =
  */
 export const EVIDENCE_TYPES: readonly EvidenceType[] = [
   'guideline',
-  'study',
+  'literature',
   'patient_data',
-  'calculation',
+  'label',
   'policy',
+  'calculation',
   'other',
 ] as const;
+
+/**
+ * @deprecated Use 'literature' instead. Kept for backward compatibility during migration.
+ */
+export type EvidenceTypeLegacy = EvidenceType | 'study';
 
 /**
  * Reference to supporting evidence.

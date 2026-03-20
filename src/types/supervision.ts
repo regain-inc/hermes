@@ -3,6 +3,7 @@
  * @module types/supervision
  */
 
+import type { ClinicalSnapshotPayload } from './clinical-snapshot';
 import type {
   CompositionMetadata,
   ConflictEvaluation,
@@ -182,6 +183,45 @@ export interface SupervisionRequestAuditRedaction extends AuditRedactionBase {
   readonly override_rate_bucket?: string;
 }
 
+// =============================================================================
+// Section 3.5: Output Validation (v2.1)
+// =============================================================================
+
+/**
+ * Severity of an output validation signal.
+ */
+export type OutputValidationSeverity = 'minor' | 'significant' | 'critical';
+
+/**
+ * A single output validation signal (hallucination, semantic mismatch, etc.).
+ */
+export interface OutputValidationSignal {
+  /** Signal type (e.g., "hallucination", "semantic_mismatch", "missing_citation") */
+  readonly type: string;
+  /** Severity */
+  readonly severity: OutputValidationSeverity;
+  /** Human-readable description */
+  readonly description: string;
+  /** If signal is proposal-specific, which proposal */
+  readonly proposal_id?: string;
+}
+
+/**
+ * Deutsch-side output validation result.
+ * Replaces the duck-typed hallucination_detection field from SAL-1014.
+ *
+ * @since Hermes v2.1
+ * @see 06-hermes-clinical-supervision-contract.md
+ */
+export interface OutputValidationResult {
+  /** Whether all validation checks passed */
+  readonly valid: boolean;
+  /** Worst severity across all signals (only present when !valid) */
+  readonly severity?: OutputValidationSeverity;
+  /** Individual signals (only present when !valid) */
+  readonly signals?: readonly OutputValidationSignal[];
+}
+
 /**
  * Request from Deutsch to Popper for supervision.
  *
@@ -203,12 +243,12 @@ export interface SupervisionRequest {
   readonly snapshot: HealthStateSnapshotRef;
 
   /**
-   * Optional inline snapshot payload for deployments where Popper cannot
-   * (or should not) fetch snapshots via snapshot_uri.
-   * If present, this MUST be the exact JSON payload whose bytes are
-   * hashed for snapshot.snapshot_hash.
+   * Inline clinical snapshot payload for Popper rule evaluation.
+   * MUST be populated in advocate_clinical mode.
+   * @since Hermes v2.1 — typed as ClinicalSnapshotPayload (was Record<string, unknown>)
+   * @see 06-hermes-clinical-supervision-contract.md §1
    */
-  readonly snapshot_payload?: Record<string, unknown>;
+  readonly snapshot_payload?: ClinicalSnapshotPayload;
 
   /**
    * Replay protection / request binding.
@@ -224,6 +264,15 @@ export interface SupervisionRequest {
 
   /** Proposed interventions (at least one required) */
   readonly proposals: readonly ProposedIntervention[];
+
+  /**
+   * Deutsch-side output validation result (hallucination signals, semantic mismatches).
+   * When validation found issues, Popper evaluates them deterministically via
+   * hallucination_detected and related condition kinds.
+   * @since Hermes v2.1 — replaces duck-typed hallucination_detection field
+   * @see SAL-1014, SAL-1016
+   */
+  readonly output_validation?: OutputValidationResult;
 
   /** Optional free-text notes (SHOULD be brief; avoid PHI) */
   readonly notes?: string;

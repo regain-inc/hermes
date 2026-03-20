@@ -159,6 +159,22 @@ export type MedicationChangeType = 'start' | 'stop' | 'titrate' | 'hold';
  * NOTE: Contains PHI; implementations MUST NOT log without explicit redaction.
  *
  */
+/**
+ * Structured dose representation for machine-readable matching.
+ * @since Hermes v2.1
+ * @see 06-hermes-clinical-supervision-contract.md §1.4
+ */
+export interface StructuredDose {
+  /** Numeric value */
+  readonly value: number;
+  /** Unit (UCUM preferred: "mg", "mcg", "units", "mL") */
+  readonly unit: string;
+  /** Route if known */
+  readonly route?: 'oral' | 'iv' | 'sc' | 'im' | 'topical' | 'inhaled' | 'other';
+  /** Frequency if known (e.g., "daily", "bid", "tid", "qid", "weekly", "prn") */
+  readonly frequency?: string;
+}
+
 export interface MedicationOrderProposal extends ProposedInterventionBase {
   readonly kind: 'MEDICATION_ORDER_PROPOSAL';
 
@@ -167,15 +183,32 @@ export interface MedicationOrderProposal extends ProposedInterventionBase {
     readonly name: string;
     /** RxNorm code if available */
     readonly rxnorm_code?: string;
+    /**
+     * ATC 4th-level chemical subgroup code (e.g., "C09AA" for ACE inhibitors).
+     * Required for class-level Popper rule matching.
+     * @since Hermes v2.1
+     * @see 06-hermes-clinical-supervision-contract.md §5.4
+     */
+    readonly atc_class?: string;
   };
 
   readonly change: {
     /** Type of medication change */
     readonly change_type: MedicationChangeType;
-    /** Current dose (e.g., "10 mg daily") */
+    /** Current dose as human-readable string (e.g., "10 mg daily") */
     readonly from_dose?: string;
-    /** Target dose (e.g., "20 mg daily") */
+    /** Target dose as human-readable string (e.g., "20 mg daily") */
     readonly to_dose?: string;
+  };
+
+  /**
+   * Structured dose for machine-readable matching (e.g., dose-ceiling checks).
+   * @since Hermes v2.1
+   * @see 06-hermes-clinical-supervision-contract.md §2
+   */
+  readonly structured_dose?: {
+    readonly from?: StructuredDose;
+    readonly to?: StructuredDose;
   };
 
   /**

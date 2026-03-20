@@ -109,6 +109,33 @@ export type { HermesError, HermesErrorCode } from './types/errors';
 export type { BiasDetectionEvent } from './types/bias';
 
 // =============================================================================
+// Clinical Snapshot Types (v2.2)
+// =============================================================================
+
+export type {
+  ClinicalSnapshotPayload,
+  ActiveMedication,
+  MedicationStatus,
+  LabValue,
+  LabFlag,
+  Condition as SnapshotCondition,
+  ConditionStatus,
+  VitalSign,
+  VitalSignType,
+  MedicationAllergy,
+  AllergyReactionType,
+  AllergySeverity,
+  NativeGrading,
+  HFAssessment,
+  HFPhenotype,
+  NYHAClass,
+  AcuteStatus,
+  AccessContext,
+} from './types/clinical-snapshot';
+
+export { HF_PHENOTYPES, NYHA_CLASSES } from './types/clinical-snapshot';
+
+// =============================================================================
 // Proposal Types
 // =============================================================================
 

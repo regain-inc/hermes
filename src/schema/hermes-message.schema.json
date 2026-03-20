@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://regain.ai/schemas/hermes-message.schema.json",
-  "title": "Hermes v2.1.0 — Message + Shared Types Schema",
+  "title": "Hermes v2.3.0 — Message + Shared Types Schema",
   "description": "Machine-readable schema for Hermes messages and shared types including clinical supervision contract (v2.1), imaging data, clinician feedback, and bias detection. This is a spec artifact (not runtime code).",
   "type": "object",
   "oneOf": [
@@ -1104,6 +1104,7 @@
           }
         },
         "notes": { "type": "string" },
+        "vendor": { "$ref": "#/$defs/VendorIdentifier" },
         "cross_domain_conflicts": {
           "type": "array",
           "items": { "$ref": "#/$defs/CrossDomainConflict" }
@@ -1797,6 +1798,225 @@
         "settings_snapshot": { "$ref": "#/$defs/OperationalStateSnapshot" },
         "deferred": { "$ref": "#/$defs/DeferredInfo" },
         "audit_redaction": { "$ref": "#/$defs/AuditRedactionBase" }
+      }
+    },
+    "ApprovalStatus": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "evidence_reviewed",
+        "clinical_review_pending",
+        "conditionally_approved",
+        "approved",
+        "suspended",
+        "retired"
+      ]
+    },
+    "ApprovalMethod": {
+      "type": "string",
+      "enum": [
+        "literature_review",
+        "clinical_board_vote",
+        "individual_sign_off",
+        "regulatory_mandate",
+        "statistical_derivation",
+        "operational_default"
+      ]
+    },
+    "VerificationTestType": {
+      "type": "string",
+      "enum": [
+        "unit_test",
+        "integration_test",
+        "system_test",
+        "regression_test",
+        "clinical_scenario_test",
+        "adversarial_test",
+        "manual_review"
+      ]
+    },
+    "VerificationResult": {
+      "type": "string",
+      "enum": ["pass", "fail", "inconclusive", "not_run"]
+    },
+    "VerificationEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["test_id", "test_type", "result", "executed_at"],
+      "properties": {
+        "test_id": { "type": "string", "minLength": 1 },
+        "test_type": { "$ref": "#/$defs/VerificationTestType" },
+        "result": { "$ref": "#/$defs/VerificationResult" },
+        "executed_at": { "$ref": "#/$defs/IsoDateTime" },
+        "artifact_path": { "type": "string" },
+        "description": { "type": "string" }
+      }
+    },
+    "SafetyClass": {
+      "type": "string",
+      "enum": ["A", "B", "C"]
+    },
+    "RiskSeverity": {
+      "type": "string",
+      "enum": ["negligible", "minor", "serious", "critical", "catastrophic"]
+    },
+    "RiskProbability": {
+      "type": "string",
+      "enum": ["improbable", "remote", "occasional", "probable", "frequent"]
+    },
+    "RiskDetectability": {
+      "type": "string",
+      "enum": ["high", "moderate", "low", "undetectable"]
+    },
+    "RiskClassification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["safety_class", "severity", "probability", "detectability"],
+      "properties": {
+        "safety_class": { "$ref": "#/$defs/SafetyClass" },
+        "severity": { "$ref": "#/$defs/RiskSeverity" },
+        "probability": { "$ref": "#/$defs/RiskProbability" },
+        "detectability": { "$ref": "#/$defs/RiskDetectability" },
+        "risk_file_ref": { "type": "string" },
+        "residual_risk_acceptable": { "type": "boolean" }
+      }
+    },
+    "SourceRelationship": {
+      "type": "string",
+      "enum": ["supporting", "contradicting", "qualifying", "superseding"]
+    },
+    "GovernanceApproval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "method"],
+      "properties": {
+        "status": { "$ref": "#/$defs/ApprovalStatus" },
+        "method": { "$ref": "#/$defs/ApprovalMethod" },
+        "approver": { "type": "string" },
+        "approver_role": { "type": "string" },
+        "approved_at": { "type": "string" },
+        "conditions": { "type": "string" },
+        "expires_at": { "type": "string" },
+        "notes": { "type": "string" },
+        "change_request_id": { "type": "string" },
+        "rationale": { "type": "string" },
+        "impact_assessment": { "type": "string" },
+        "verification_evidence": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/VerificationEvidence" }
+        },
+        "requirement_ids": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "design_review_ref": { "type": "string" },
+        "risk_classification": { "$ref": "#/$defs/RiskClassification" }
+      }
+    },
+    "PCCPScope": {
+      "type": "string",
+      "enum": ["sps", "acp", "itp"]
+    },
+    "ChangeControlRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "change_request_id",
+        "rationale",
+        "impact_assessment",
+        "verification_evidence",
+        "previous_version",
+        "new_version",
+        "approval",
+        "submitted_at"
+      ],
+      "properties": {
+        "change_request_id": { "type": "string", "minLength": 1 },
+        "rationale": { "type": "string", "minLength": 1 },
+        "impact_assessment": { "type": "string", "minLength": 1 },
+        "verification_evidence": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/VerificationEvidence" }
+        },
+        "previous_version": { "type": "string", "minLength": 1 },
+        "new_version": { "type": "string", "minLength": 1 },
+        "pccp_scope": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/PCCPScope" }
+        },
+        "approval": { "$ref": "#/$defs/GovernanceApproval" },
+        "submitted_at": { "$ref": "#/$defs/IsoDateTime" },
+        "implemented_at": { "$ref": "#/$defs/IsoDateTime" }
+      }
+    },
+    "ReviewAlertLevel": {
+      "type": "string",
+      "enum": ["overdue", "due_soon", "upcoming", "current"]
+    },
+    "ReviewAlert": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "subject_id",
+        "subject_type",
+        "alert_level",
+        "review_due",
+        "days_delta",
+        "message"
+      ],
+      "properties": {
+        "subject_id": { "type": "string", "minLength": 1 },
+        "subject_type": {
+          "type": "string",
+          "enum": ["rule", "source", "pack", "approval"]
+        },
+        "alert_level": { "$ref": "#/$defs/ReviewAlertLevel" },
+        "review_due": { "type": "string" },
+        "days_delta": { "type": "number" },
+        "message": { "type": "string", "minLength": 1 }
+      }
+    },
+    "GovernanceEventType": {
+      "type": "string",
+      "enum": [
+        "APPROVAL_GRANTED",
+        "APPROVAL_REVOKED",
+        "APPROVAL_EXPIRED",
+        "CHANGE_REQUEST_SUBMITTED",
+        "CHANGE_REQUEST_APPROVED",
+        "CHANGE_REQUEST_REJECTED",
+        "REVIEW_ALERT_EMITTED",
+        "RISK_CLASSIFICATION_UPDATED"
+      ]
+    },
+    "GovernanceEvent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["event_type", "occurred_at", "subject_id", "actor", "summary"],
+      "properties": {
+        "event_type": { "$ref": "#/$defs/GovernanceEventType" },
+        "occurred_at": { "$ref": "#/$defs/IsoDateTime" },
+        "subject_id": { "type": "string", "minLength": 1 },
+        "actor": { "type": "string", "minLength": 1 },
+        "actor_role": { "type": "string" },
+        "approval": { "$ref": "#/$defs/GovernanceApproval" },
+        "change_control": { "$ref": "#/$defs/ChangeControlRecord" },
+        "review_alert": { "$ref": "#/$defs/ReviewAlert" },
+        "summary": { "type": "string", "minLength": 1 }
+      }
+    },
+    "VendorIdentifier": {
+      "description": "Identifies the upstream AI vendor that produced the proposals. Enables vendor-specific policy rules and per-vendor audit trails in multi-vendor deployments.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["vendor_id"],
+      "properties": {
+        "vendor_id": { "type": "string", "minLength": 1 },
+        "vendor_name": { "type": "string" },
+        "product_id": { "type": "string" },
+        "product_version": { "type": "string" },
+        "fda_clearance_id": { "type": "string" },
+        "risk_tier": { "type": "string", "enum": ["low", "moderate", "high", "unclassified"] }
       }
     }
   }

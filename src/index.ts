@@ -256,3 +256,18 @@ export {
   V1_TO_V2_KEY_MAP,
   V1_REMOVED_KEYS,
 } from './utils/control-migration';
+
+// =============================================================================
+// Governance Types (v2.3.0)
+// =============================================================================
+
+export type {
+  ApprovalStatus,
+  ApprovalMethod,
+  GovernanceApproval,
+} from './types/governance';
+
+export {
+  APPROVAL_STATUSES,
+  APPROVAL_METHODS,
+} from './types/governance';

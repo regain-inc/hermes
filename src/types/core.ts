@@ -42,7 +42,7 @@ export type HermesVersion = `${number}.${number}.${number}`;
 /**
  * Current Hermes protocol version.
  */
-export const CURRENT_HERMES_VERSION: HermesVersion = '2.1.0';
+export const CURRENT_HERMES_VERSION: HermesVersion = '2.2.0';
 
 /**
  * ISO 8601 datetime string with timezone.
@@ -71,7 +71,41 @@ export interface TraceProducer {
   readonly service_version: string;
   readonly ruleset_version?: string;
   readonly model_version?: string;
+  /** Unique instance identifier for multi-tenant deployments */
+  readonly instance_id?: string;
 }
+
+// =============================================================================
+// Section 2b: Vendor Identification (multi-vendor supervision)
+// =============================================================================
+
+/**
+ * Identifies the upstream AI vendor that produced the proposals.
+ * Used by Popper to apply vendor-specific policy rules and track
+ * per-vendor audit trails in multi-vendor deployments.
+ *
+ * @since Hermes v2.2
+ */
+export interface VendorIdentifier {
+  /** Vendor identifier (e.g., 'caption_health', 'us2_ai', 'heartflow', 'internal') */
+  readonly vendor_id: string;
+  /** Human-readable vendor name */
+  readonly vendor_name?: string;
+  /** Vendor's product/model identifier */
+  readonly product_id?: string;
+  /** Vendor's product version */
+  readonly product_version?: string;
+  /** FDA clearance number if applicable (e.g., 'K201369') */
+  readonly fda_clearance_id?: string;
+  /** Vendor risk tier for policy routing */
+  readonly risk_tier?: 'low' | 'moderate' | 'high' | 'unclassified';
+}
+
+/**
+ * All valid vendor risk tiers as a readonly array for runtime validation.
+ */
+export const VENDOR_RISK_TIERS = ['low', 'moderate', 'high', 'unclassified'] as const;
+export type VendorRiskTier = (typeof VENDOR_RISK_TIERS)[number];
 
 /**
  * Cryptographic signature for message authentication.

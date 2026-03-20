@@ -262,6 +262,13 @@ export interface SupervisionRequest {
   /** PHI-minimized risk flags about the inputs */
   readonly input_risk?: InputRisk;
 
+  /**
+   * Upstream AI vendor that produced the proposals.
+   * Enables vendor-specific policy rules and per-vendor audit trails.
+   * @since Hermes v2.2
+   */
+  readonly vendor?: import('./core').VendorIdentifier;
+
   /** Proposed interventions (at least one required) */
   readonly proposals: readonly ProposedIntervention[];
 

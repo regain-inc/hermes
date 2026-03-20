@@ -23,8 +23,8 @@ describe('Core Types', () => {
       expect(CURRENT_HERMES_VERSION).toMatch(/^\d+\.\d+\.\d+$/);
     });
 
-    it('CURRENT_HERMES_VERSION should be 2.1.0', () => {
-      expect(CURRENT_HERMES_VERSION).toBe('2.1.0');
+    it('CURRENT_HERMES_VERSION should be 2.2.0', () => {
+      expect(CURRENT_HERMES_VERSION).toBe('2.2.0');
     });
   });
 

@@ -44,6 +44,8 @@ export type {
   ReasonCode,
   SupervisionDecision,
   ProposedInterventionKind,
+  VendorIdentifier,
+  VendorRiskTier,
 } from './types/core';
 
 export {
@@ -51,6 +53,7 @@ export {
   REASON_CODES,
   SUPERVISION_DECISIONS,
   PROPOSED_INTERVENTION_KINDS,
+  VENDOR_RISK_TIERS,
 } from './types/core';
 
 // =============================================================================

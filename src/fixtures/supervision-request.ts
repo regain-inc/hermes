@@ -37,6 +37,7 @@ export const minimalSupervisionRequest: SupervisionRequest = {
   },
   snapshot: {
     snapshot_id: 'snap-001',
+    snapshot_hash: '44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a',
     created_at: isoDateTime('2026-01-25T09:55:00.000Z'),
     sources: ['ehr'],
   },
@@ -75,7 +76,7 @@ export const fullSupervisionRequest: SupervisionRequest = {
   },
   snapshot: {
     ...minimalSupervisionRequest.snapshot,
-    snapshot_hash: 'm8hP4l9Qyq9w9n0qB8p0bKqH0a7lq9hY2uT5h6k1e2c=',
+    snapshot_hash: '44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a',
     snapshot_uri: 'phi://snapshots/snap-001',
     quality: {
       missing_signals: [],
@@ -115,6 +116,7 @@ export const medicationSupervisionRequest: SupervisionRequest = {
   },
   snapshot: {
     snapshot_id: 'snap-med-001',
+    snapshot_hash: '6e172c4cf63387379fe5729e3de6c41795ebdb2261fec8287b67007156b508ae',
     created_at: isoDateTime('2026-01-25T09:55:00.000Z'),
     sources: ['ehr', 'wearable'],
   },
@@ -212,6 +214,7 @@ export const triageSupervisionRequest: SupervisionRequest = {
   },
   snapshot: {
     snapshot_id: 'snap-triage-001',
+    snapshot_hash: '44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a',
     created_at: isoDateTime('2026-01-25T09:55:00.000Z'),
     sources: ['ehr', 'patient_reported'],
   },

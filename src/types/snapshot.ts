@@ -54,8 +54,10 @@ export interface HealthStateSnapshotRef {
   readonly snapshot_id: string;
 
   /**
-   * Base64-encoded SHA-256 hash of the canonical JSON snapshot payload.
-   * Strongly recommended for reproducibility in advocate_clinical mode.
+   * SHA-256 hash of the canonical JSON snapshot payload.
+   * Hex-encoded (64-char) or base64-encoded (44-char with padding).
+   * MUST be present when snapshot_payload is provided inline (mode B).
+   * Strongly recommended when snapshot_uri is used (mode A).
    */
   readonly snapshot_hash?: string;
 

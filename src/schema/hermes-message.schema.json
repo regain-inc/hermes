@@ -36,7 +36,8 @@
         "system": { "type": "string", "enum": ["deutsch", "popper", "gateway", "other"] },
         "service_version": { "type": "string", "minLength": 1 },
         "ruleset_version": { "type": "string", "minLength": 1 },
-        "model_version": { "type": "string", "minLength": 1 }
+        "model_version": { "type": "string", "minLength": 1 },
+        "instance_id": { "type": "string" }
       }
     },
     "TraceSignature": {
@@ -559,7 +560,7 @@
       "required": ["snapshot_id", "created_at", "sources"],
       "properties": {
         "snapshot_id": { "type": "string", "minLength": 1 },
-        "snapshot_hash": { "type": "string", "pattern": "^[A-Za-z0-9+/]+={0,2}$" },
+        "snapshot_hash": { "type": "string", "pattern": "^([a-fA-F0-9]{64}|[A-Za-z0-9+/]{43}=)$" },
         "created_at": { "$ref": "#/$defs/IsoDateTime" },
         "snapshot_uri": { "type": "string", "minLength": 1 },
         "sources": {
@@ -1151,12 +1152,28 @@
           }
         }
       },
-      "if": {
-        "properties": { "mode": { "const": "advocate_clinical" } }
-      },
-      "then": {
-        "required": ["snapshot_payload"]
-      }
+      "allOf": [
+        {
+          "if": {
+            "properties": { "mode": { "const": "advocate_clinical" } }
+          },
+          "then": {
+            "required": ["snapshot_payload"]
+          }
+        },
+        {
+          "if": {
+            "required": ["snapshot_payload"]
+          },
+          "then": {
+            "properties": {
+              "snapshot": {
+                "required": ["snapshot_id", "created_at", "sources", "snapshot_hash"]
+              }
+            }
+          }
+        }
+      ]
     },
     "SupervisionResponse": {
       "type": "object",

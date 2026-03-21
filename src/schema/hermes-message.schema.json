@@ -306,6 +306,7 @@
               "items": {
                 "type": "object",
                 "required": ["name", "status"],
+                "additionalProperties": false,
                 "properties": {
                   "name": { "type": "string", "minLength": 1 },
                   "rxnorm_code": { "type": "string" },
@@ -379,6 +380,7 @@
               "items": {
                 "type": "object",
                 "required": ["lab_id", "value", "unit", "collected_at"],
+                "additionalProperties": false,
                 "properties": {
                   "lab_id": { "type": "string", "minLength": 1 },
                   "loinc_code": { "type": "string" },
@@ -402,6 +404,7 @@
               "items": {
                 "type": "object",
                 "required": ["condition_id", "status"],
+                "additionalProperties": false,
                 "properties": {
                   "condition_id": { "type": "string", "minLength": 1 },
                   "snomed_code": { "type": "string" },
@@ -421,6 +424,7 @@
               "items": {
                 "type": "object",
                 "required": ["type", "value", "unit", "recorded_at"],
+                "additionalProperties": false,
                 "properties": {
                   "type": {
                     "type": "string",
@@ -450,6 +454,7 @@
               "items": {
                 "type": "object",
                 "required": ["substance", "reaction_type"],
+                "additionalProperties": false,
                 "properties": {
                   "substance": { "type": "string", "minLength": 1 },
                   "atc_class": { "type": "string", "pattern": "^[A-Z][0-9]{2}[A-Z]{2}$" },

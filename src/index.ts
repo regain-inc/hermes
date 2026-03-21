@@ -162,6 +162,8 @@ export type {
 export { computeHTVScore, createPoorHTVScore, meetsHTVThreshold } from './utils/htv';
 export type { HTVDimensions, HTVWeights } from './utils/htv';
 
+export { canonicalJsonStringify, computeSnapshotHash } from './utils/canonical-json';
+
 export {
   computeUncertainty,
   createLowUncertainty,

@@ -22,7 +22,29 @@
 
 ## Breaking Changes
 
-**None at runtime.** The `readonly` modifier added to all interface fields is a TypeScript compile-time constraint only. Existing JavaScript consumers are unaffected.
+### Runtime: `snapshot_hash` enforcement
+
+The JSON Schema now **rejects** `SupervisionRequest` and `SupervisionResponse` messages that include an inline `snapshot_payload` without a corresponding `snapshot_hash`. Previously, `snapshot_hash` was optional even when `snapshot_payload` was present. As of v2.3, `snapshot_hash` is **required** whenever `snapshot_payload` is provided.
+
+**Impact**: Any code that sends inline snapshots without computing the hash will fail schema validation at runtime.
+
+**Fix**: Compute the SHA-256 hash of the canonical JSON snapshot payload and include it in `snapshot_hash`:
+
+```typescript
+import { computeSnapshotHash } from '@regain/hermes';
+
+const request = {
+  // ...
+  snapshot: {
+    snapshot_payload: payload,
+    snapshot_hash: computeSnapshotHash(payload), // NOW REQUIRED
+  },
+};
+```
+
+### TypeScript: `readonly` modifier on all fields
+
+The `readonly` modifier added to all interface fields is a TypeScript compile-time constraint only. Existing JavaScript consumers are unaffected.
 
 TypeScript consumers may see new compile errors if they were mutating Hermes objects directly. Fix by copying before mutation:
 
@@ -127,6 +149,25 @@ const updated = { ...request, mode: 'wellness' };
    ```
 
 5. Run compliance test suite to verify.
+
+---
+
+## Migration Steps: Deutsch Consumers (04-deutsch)
+
+1. **Update `package.json`**:
+   ```json
+   { "@regain/hermes": "2.3.0" }
+   ```
+
+2. **Fix `NYHAClass` collision**: Deutsch defines a local `NYHAClass` type that collides with the Hermes governance module's `RiskClassification` patterns. Rename the local type to `NYHAFunctionalClass` or import the canonical version if Hermes adds it in a future release.
+
+3. **Update `EvidenceType` enum**: Hermes v2.3 adds `VerificationTestType` and `VerificationEvidence` to the governance module. If Deutsch defines a local `EvidenceType` that overlaps, align it with the canonical Hermes types or re-export from `@regain/hermes`.
+
+4. **Adopt `snapshot_hash` enforcement**: Any Deutsch code that sends `SupervisionRequest` with an inline `snapshot_payload` must now include a `snapshot_hash`. See the Breaking Changes section above.
+
+5. **Optionally adopt governance types**: Replace any local `GovernanceApproval` or `ApprovalStatus` with Hermes canonical imports, same as Popper and Accreditation.
+
+6. Run `bun test` to verify contract compatibility.
 
 ---
 

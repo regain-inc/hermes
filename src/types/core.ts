@@ -67,7 +67,7 @@ export type Mode = 'wellness' | 'advocate_clinical';
  * Producer system identifier for distributed tracing.
  */
 export interface TraceProducer {
-  readonly system: 'deutsch' | 'popper' | 'gateway' | 'other';
+  readonly system: 'deutsch' | 'popper' | 'gateway' | 'accreditation' | 'other';
   readonly service_version: string;
   readonly ruleset_version?: string;
   readonly model_version?: string;
@@ -134,7 +134,7 @@ export interface TraceContext {
  * @see schema/hermes-message.schema.json — $defs.SubjectRef
  */
 export interface SubjectRef {
-  readonly subject_type: 'patient';
+  readonly subject_type: 'patient' | 'facility';
   readonly subject_id: string;
   readonly organization_id?: string;
 }

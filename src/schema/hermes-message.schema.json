@@ -33,7 +33,7 @@
       "additionalProperties": false,
       "required": ["system", "service_version"],
       "properties": {
-        "system": { "type": "string", "enum": ["deutsch", "popper", "gateway", "other"] },
+        "system": { "type": "string", "enum": ["deutsch", "popper", "gateway", "accreditation", "other"] },
         "service_version": { "type": "string", "minLength": 1 },
         "ruleset_version": { "type": "string", "minLength": 1 },
         "model_version": { "type": "string", "minLength": 1 },
@@ -68,7 +68,7 @@
       "additionalProperties": false,
       "required": ["subject_type", "subject_id"],
       "properties": {
-        "subject_type": { "type": "string", "const": "patient" },
+        "subject_type": { "type": "string", "enum": ["patient", "facility"] },
         "subject_id": { "type": "string", "minLength": 1 },
         "organization_id": { "type": "string", "minLength": 1 }
       }

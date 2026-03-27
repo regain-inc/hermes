@@ -38,3 +38,4 @@ temp/
 # Internal documentation
 docs/
 .npmrc
+.claude/settings.local.json.bak
